@@ -1,0 +1,5 @@
+GenerateLibraryBuildRules libMDK.so "$LIBMDK_CFLAGS" "$LIBMDK_LDFLAGS"
+GenerateBinaryBuildRules MDKTest "$MDKTEST_CFLAGS" "$MDKTEST_LDFLAGS"
+
+IncludeBuildInfo src/libMDK
+IncludeBuildInfo src/MDKTest

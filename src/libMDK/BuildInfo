@@ -1,0 +1,3 @@
+GenerateBuildStatements libMDK.so lib "
+libMDK/Application.c
+"

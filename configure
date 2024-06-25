@@ -1,0 +1,70 @@
+#!/bin/sh
+set -e
+
+GenerateBinaryBuildRules() {
+cat << EOF >> build.ninja
+rule compile_$1
+  command = $CC \$in -c $BIN_CFLAGS $2 -MD -MF \$out.d -o \$out
+  depfile = \$out.d
+  description = Compiling \$out
+
+rule link_$1
+  command = $CC \$in $BIN_LDFLAGS $3 -o \$out
+  description = Linking \$out
+
+EOF
+}
+
+GenerateLibraryBuildRules() {
+cat << EOF >> build.ninja
+rule compile_$1
+  command = $CC \$in -c $LIB_CFLAGS $2 -MD -MF \$out.d -o \$out
+  depfile = \$out.d
+  description = Compiling \$out
+
+rule link_$1
+  command = $CC \$in $LIB_LDFLAGS $3 -o \$out
+  description = Linking \$out
+
+EOF
+}
+
+GenerateBuildStatements() {
+  objects=
+  
+  for file in $3; do
+    object="Build/$(echo $file | sed "s/\\.c$/.o/")"
+    objects="$objects $object"
+    
+    echo "build $object: compile_$1 src/$file" >> build.ninja
+  done
+  
+  echo "build $2/$1: link_$1$objects" >> build.ninja
+}
+
+GenerateBuildStatementsWithDependency() {
+  objects=
+  
+  for file in $4; do
+    object="Build/$(echo $file | sed "s/\\.c$/.o/")"
+    objects="$objects $object"
+    
+    echo "build $object: compile_$1 src/$file" >> build.ninja
+  done
+  
+  echo "build $2/$1: link_$1$objects | $3" >> build.ninja
+}
+
+IncludeBuildInfo() {
+  . ./$1/BuildInfo
+}
+
+. ${1:-./DefaultBuildConfig}
+
+if [ -f build.ninja ]; then
+  rm build.ninja
+fi
+
+touch build.ninja
+
+IncludeBuildInfo .

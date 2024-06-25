@@ -1,0 +1,8 @@
+Build
+build.ninja
+.ninja_log
+
+CustomBuildConfig
+
+bin
+lib
