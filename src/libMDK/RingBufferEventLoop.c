@@ -46,7 +46,7 @@ static void eventLoopSendEvent(MDK_Event* event) {
   eventRingWriteOffset = (eventRingWriteOffset+1) % EVENT_RING_SIZE;
   
   if (eventRingWriteOffset == eventRingReadOffset) {
-    fputs("Event loop ring buffer full! Aborting!", stderr);
+    fputs("Event loop ring buffer full! Aborting!\n", stderr);
     abort();
   }
   
