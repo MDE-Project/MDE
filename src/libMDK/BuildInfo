@@ -1,3 +1,4 @@
 GenerateBuildStatements libMDK.so lib "
 libMDK/Application.c
+libMDK/RingBufferEventLoop.c
 "
