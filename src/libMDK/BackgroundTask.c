@@ -13,6 +13,8 @@ struct MDK_BackgroundTask_struct {
 static void* threadMain(void* task_raw) {
   MDK_BackgroundTask* task = task_raw;
   
+  pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+  
   task->main(task->data);
   return NULL;
 }
@@ -30,10 +32,10 @@ MDK_BackgroundTask* MDK_BackgroundTask_create(void (*taskMain)(void* data), void
 }
 
 void MDK_BackgroundTask_destroy(MDK_BackgroundTask* task) {
-  pthread_kill(task->thread, SIGKILL);
+  pthread_cancel(task->thread);
   free(task);
 }
 
 void MDK_BackgroundTask_stop(MDK_BackgroundTask* task) {
-  pthread_kill(task->thread, SIGKILL);
+  pthread_cancel(task->thread);
 }
