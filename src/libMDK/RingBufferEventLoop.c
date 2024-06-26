@@ -7,7 +7,7 @@
 #include <MDK/BackgroundTask.h>
 #include <MDK/RingBufferEventLoop.h>
 
-#define EVENT_RING_SIZE (4096)
+#define EVENT_RING_SIZE (8192)
 
 static pthread_mutex_t eventRingMutex;
 static pthread_cond_t eventRingCond;
