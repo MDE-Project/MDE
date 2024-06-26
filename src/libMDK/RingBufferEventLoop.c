@@ -1,8 +1,10 @@
+#include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 
+#include <MDK/BackgroundTask.h>
 #include <MDK/RingBufferEventLoop.h>
 
 #define EVENT_RING_SIZE (4096)
@@ -14,12 +16,34 @@ static MDK_Event* volatile eventRing[EVENT_RING_SIZE] = { NULL };
 static volatile unsigned eventRingReadOffset = 0;
 static volatile unsigned eventRingWriteOffset = 0;
 
-static void eventLoopInit() {
+static sigset_t signalSet;
+static void (*quitRequestReceived)();
+
+static void signalReceiver(void* unused) {
+  int signalReceived;
+  
+  while (true) {
+    sigwait(&signalSet, &signalReceived);
+    quitRequestReceived();
+  }
+}
+
+static void eventLoopInit(void (*quitRequestCallback)()) {
+  quitRequestReceived = quitRequestCallback;
+  
   pthread_mutex_init(&eventRingMutex, NULL);
   pthread_cond_init(&eventRingCond, NULL);
+  
+  sigemptyset(&signalSet);
+  sigaddset(&signalSet, SIGINT);
+  sigaddset(&signalSet, SIGTERM);
+  
+  pthread_sigmask(SIG_BLOCK, &signalSet, NULL);
 }
 
 static void eventLoopRun() {
+  MDK_BackgroundTask_create(signalReceiver, NULL);
+  
   while (true) {
     pthread_mutex_lock(&eventRingMutex);
     

@@ -15,3 +15,4 @@ int MDK_Application_start(int argc, char** argv);
 void MDK_Application_sendEvent(MDK_Event* event);
 
 void MDK_Application_onStart(void (*target)(MDK_Application_StartEvent* event));
+void MDK_Application_onQuitRequest(MDK_Event_Target target);
