@@ -1,3 +1,7 @@
 GenerateBuildStatementsWithDependency MDKTest bin lib/libMDK.so "
 MDKTest/main.c
 "
+
+GenerateInstallStatements bin "
+MDKTest
+"

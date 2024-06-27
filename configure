@@ -1,6 +1,17 @@
 #!/bin/sh
 set -e
 
+install_files=""
+
+GenerateInstallRule() {
+cat << EOF >> build.ninja
+rule install
+  command = $INSTALL \$in \$out
+  description = Installing \$out
+
+EOF
+}
+
 GenerateBinaryBuildRules() {
 cat << EOF >> build.ninja
 rule compile_$1
@@ -55,6 +66,22 @@ GenerateBuildStatementsWithDependency() {
   echo "build $2/$1: link_$1$objects | $3" >> build.ninja
 }
 
+SetDefaultTarget() {
+  echo "default $1" >> build.ninja
+}
+
+GenerateInstallStatements() {
+  for file in $2; do
+    install_files="$install_files $PREFIX/$1/$file"
+    
+    echo "build $PREFIX/$1/$file: install $1/$file" >> build.ninja
+  done
+}
+
+GenerateInstallPhony() {
+  echo "build install: phony$install_files" >> build.ninja
+}
+
 IncludeBuildInfo() {
   . ./$1/BuildInfo
 }
@@ -67,4 +94,6 @@ fi
 
 touch build.ninja
 
+GenerateInstallRule
 IncludeBuildInfo .
+GenerateInstallPhony

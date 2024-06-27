@@ -1,4 +1,6 @@
 CC="gcc"
+INSTALL="install"
+PREFIX="/usr/local"
 
 BIN_CFLAGS="-O2 -Wall -Iinclude -pthread"
 BIN_LDFLAGS="-s -Llib -pthread"

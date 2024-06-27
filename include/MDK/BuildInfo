@@ -1,0 +1,8 @@
+GenerateInstallStatements include "
+MDK/Application.h
+MDK/BackgroundTask.h
+MDK/Event.h
+MDK/EventLoopImpl.h
+MDK/RingBufferEventLoop.h
+MDK/Timer.h
+"

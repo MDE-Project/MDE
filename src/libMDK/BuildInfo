@@ -4,3 +4,7 @@ libMDK/BackgroundTask.c
 libMDK/RingBufferEventLoop.c
 libMDK/Timer.c
 "
+
+GenerateInstallStatements lib "
+libMDK.so
+"
