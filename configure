@@ -3,14 +3,6 @@ set -e
 
 install_files=""
 
-GenerateInstallRule() {
-cat << EOF >> build.ninja
-rule install
-  command = $INSTALL \$in \$out
-  description = Installing \$out
-EOF
-}
-
 GenerateBinaryBuildRules() {
 cat << EOF >> build.ninja
 rule compile_$1
@@ -42,10 +34,10 @@ GenerateBuildStatements() {
     object="Build/$(echo $file | sed "s/\\.c$/.o/")"
     objects="$objects $object"
     
-    echo "build $object: compile_$1 src/$file" >> build.ninja
+    echo "build $object: compile_$2 src/$file" >> build.ninja
   done
   
-  echo "build $2/$1: link_$1$objects" >> build.ninja
+  echo "build $1/$2: link_$2$objects" >> build.ninja
 }
 
 GenerateBuildStatementsWithDependency() {
@@ -55,14 +47,22 @@ GenerateBuildStatementsWithDependency() {
     object="Build/$(echo $file | sed "s/\\.c$/.o/")"
     objects="$objects $object"
     
-    echo "build $object: compile_$1 src/$file" >> build.ninja
+    echo "build $object: compile_$2 src/$file" >> build.ninja
   done
   
-  echo "build $2/$1: link_$1$objects | $3" >> build.ninja
+  echo "build $1/$2: link_$2$objects | $3" >> build.ninja
 }
 
 AddDefaultTarget() {
   echo "default $1" >> build.ninja
+}
+
+GenerateInstallRule() {
+cat << EOF >> build.ninja
+rule install
+  command = $INSTALL \$in \$out
+  description = Installing \$out
+EOF
 }
 
 GenerateInstallStatements() {

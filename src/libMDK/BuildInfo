@@ -1,6 +1,6 @@
 GenerateLibraryBuildRules libMDK.so "$LIBMDK_CFLAGS" "$LIBMDK_LDFLAGS"
 
-GenerateBuildStatements libMDK.so lib "
+GenerateBuildStatements lib libMDK.so "
 libMDK/Application.c
 libMDK/BackgroundTask.c
 libMDK/RingBufferEventLoop.c
