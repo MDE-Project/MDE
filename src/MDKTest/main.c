@@ -2,23 +2,26 @@
 #include <stdlib.h>
 
 #include <MDK/Application.h>
+#include <MDK/Timer.h>
 
-unsigned quitRequestCount = 0;
+MDK_Timer* myTimer;
+
+void onTrigger(MDK_Event* event) {
+  puts("Timer has ticked");
+}
 
 void onStart(MDK_Application_StartEvent* event) {
   puts("Application has started");
   printf("My name is %s and I have %i arguments\n", event->argv[0], event->argc);
+  
+  myTimer = MDK_Timer_create(1, MDK_Timer_Type_interval);
+  MDK_Timer_onTrigger(myTimer, onTrigger);
+  MDK_Timer_start(myTimer);
 }
 
 void onQuitRequest(MDK_Event* event) {
-  quitRequestCount++;
-  
-  printf("Received quit request no. %u\n", quitRequestCount);
-  
-  if (quitRequestCount == 5) {
-    puts("Fine! Quitting");
-    exit(0);
-  }
+  puts("Bye!");
+  exit(0);
 }
 
 int main(int argc, char* argv[]) {
