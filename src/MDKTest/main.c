@@ -14,7 +14,7 @@ void onStart(MDK_Application_StartEvent* event) {
   puts("Application has started");
   printf("My name is %s and I have %i arguments\n", event->argv[0], event->argc);
   
-  myTimer = MDK_Timer_create(1, MDK_Timer_Type_interval);
+  myTimer = MDK_Timer_create(1000000, MDK_Timer_Type_interval);
   MDK_Timer_onTrigger(myTimer, onTrigger);
   MDK_Timer_start(myTimer);
 }
