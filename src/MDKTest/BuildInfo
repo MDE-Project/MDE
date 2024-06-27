@@ -1,8 +1,8 @@
-GenerateBinaryBuildRules MDKTest "$MDKTEST_CFLAGS" "$MDKTEST_LDFLAGS"
+BuildRule MDKTest "$MDKTEST_CFLAGS" "$MDKTEST_LDFLAGS"
 
-GenerateBuildStatementsWithDependency bin MDKTest lib/libMDK.so "
+BuildWithDependency bin MDKTest lib/libMDK.so "
 MDKTest/main.c
 "
 
-GenerateInstallStatements bin MDKTest
+Install bin MDKTest
 AddDefaultTarget bin/MDKTest

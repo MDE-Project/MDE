@@ -1,4 +1,4 @@
-GenerateInstallStatements include "
+Install include "
 MDK/Application.h
 MDK/BackgroundTask.h
 MDK/Event.h

@@ -1,11 +1,11 @@
-GenerateLibraryBuildRules libMDK.so "$LIBMDK_CFLAGS" "$LIBMDK_LDFLAGS"
+LibraryBuildRule libMDK.so "$LIBMDK_CFLAGS" "$LIBMDK_LDFLAGS"
 
-GenerateBuildStatements lib libMDK.so "
+Build lib libMDK.so "
 libMDK/Application.c
 libMDK/BackgroundTask.c
 libMDK/RingBufferEventLoop.c
 libMDK/Timer.c
 "
 
-GenerateInstallStatements lib libMDK.so
+Install lib libMDK.so
 AddDefaultTarget lib/libMDK.so

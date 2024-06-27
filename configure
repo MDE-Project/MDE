@@ -3,7 +3,7 @@ set -e
 
 install_files=""
 
-GenerateBinaryBuildRules() {
+BuildRule() {
 cat << EOF >> build.ninja
 rule compile_$1
   command = $CC \$in -c $BIN_CFLAGS $2 -MD -MF \$out.d -o \$out
@@ -15,7 +15,7 @@ rule link_$1
 EOF
 }
 
-GenerateLibraryBuildRules() {
+LibraryBuildRule() {
 cat << EOF >> build.ninja
 rule compile_$1
   command = $CC \$in -c $LIB_CFLAGS $2 -MD -MF \$out.d -o \$out
@@ -27,7 +27,7 @@ rule link_$1
 EOF
 }
 
-GenerateBuildStatements() {
+Build() {
   objects=
   
   for file in $3; do
@@ -40,7 +40,7 @@ GenerateBuildStatements() {
   echo "build $1/$2: link_$2$objects" >> build.ninja
 }
 
-GenerateBuildStatementsWithDependency() {
+BuildWithDependency() {
   objects=
   
   for file in $4; do
@@ -57,24 +57,12 @@ AddDefaultTarget() {
   echo "default $1" >> build.ninja
 }
 
-GenerateInstallRule() {
-cat << EOF >> build.ninja
-rule install
-  command = $INSTALL \$in \$out
-  description = Installing \$out
-EOF
-}
-
-GenerateInstallStatements() {
+Install() {
   for file in $2; do
     install_files="$install_files $PREFIX/$1/$file"
     
     echo "build $PREFIX/$1/$file: install $1/$file" >> build.ninja
   done
-}
-
-GenerateInstallPhony() {
-  echo "build install: phony$install_files" >> build.ninja
 }
 
 IncludeBuildInfo() {
@@ -89,6 +77,12 @@ fi
 
 touch build.ninja
 
-GenerateInstallRule
+cat << EOF >> build.ninja
+rule install
+  command = $INSTALL \$in \$out
+  description = Installing \$out
+EOF
+
 IncludeBuildInfo .
-GenerateInstallPhony
+
+echo "build install: phony$install_files" >> build.ninja
