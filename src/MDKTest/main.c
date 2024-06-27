@@ -5,9 +5,15 @@
 #include <MDK/Timer.h>
 
 MDK_Timer* myTimer;
+unsigned tickCount = 0;
 
 void onTrigger(MDK_Event* event) {
   puts("Timer has ticked");
+  
+  tickCount++;
+  if (tickCount == 5) {
+    MDK_Timer_stop(myTimer);
+  }
 }
 
 void onStart(MDK_Application_StartEvent* event) {
