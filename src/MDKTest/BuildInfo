@@ -1,3 +1,5 @@
+GenerateBinaryBuildRules MDKTest "$MDKTEST_CFLAGS" "$MDKTEST_LDFLAGS"
+
 GenerateBuildStatementsWithDependency MDKTest bin lib/libMDK.so "
 MDKTest/main.c
 "

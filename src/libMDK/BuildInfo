@@ -1,3 +1,5 @@
+GenerateLibraryBuildRules libMDK.so "$LIBMDK_CFLAGS" "$LIBMDK_LDFLAGS"
+
 GenerateBuildStatements libMDK.so lib "
 libMDK/Application.c
 libMDK/BackgroundTask.c
