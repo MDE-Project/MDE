@@ -7,6 +7,5 @@ libMDK/RingBufferEventLoop.c
 libMDK/Timer.c
 "
 
-GenerateInstallStatements lib "
-libMDK.so
-"
+GenerateInstallStatements lib libMDK.so
+AddDefaultTarget lib/libMDK.so

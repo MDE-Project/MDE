@@ -4,6 +4,5 @@ GenerateBuildStatementsWithDependency MDKTest bin lib/libMDK.so "
 MDKTest/main.c
 "
 
-GenerateInstallStatements bin "
-MDKTest
-"
+GenerateInstallStatements bin MDKTest
+AddDefaultTarget bin/MDKTest

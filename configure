@@ -61,7 +61,7 @@ GenerateBuildStatementsWithDependency() {
   echo "build $2/$1: link_$1$objects | $3" >> build.ninja
 }
 
-SetDefaultTarget() {
+AddDefaultTarget() {
   echo "default $1" >> build.ninja
 }
 
