@@ -26,7 +26,7 @@ static uint64_t getMonotonicTime() {
 static void timerOneShotMain(void* timer_raw) {
   MDK_Timer* timer = timer_raw;
   
-  usleep(getMonotonicTime() - timer->nextTrigger);
+  usleep(timer->nextTrigger - getMonotonicTime());
   
   MDK_Event* triggerEvent = malloc(sizeof(MDK_Event));
   *triggerEvent = (MDK_Event){
