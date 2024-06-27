@@ -64,6 +64,7 @@ static void eventLoopRun() {
 }
 
 static void eventLoopSendEvent(MDK_Event* event) {
+  pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
   pthread_mutex_lock(&eventRingMutex);
   
   eventRing[eventRingWriteOffset] = event;
@@ -76,6 +77,7 @@ static void eventLoopSendEvent(MDK_Event* event) {
   
   pthread_cond_broadcast(&eventRingCond);
   pthread_mutex_unlock(&eventRingMutex);
+  pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 }
 
 MDK_EventLoopImpl MDK_RingBufferEventLoop_create() {
