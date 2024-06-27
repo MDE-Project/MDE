@@ -36,7 +36,7 @@ MDK_BackgroundTask* MDK_BackgroundTask_create(void (*taskMain)(void* data), void
 }
 
 void MDK_BackgroundTask_destroy(MDK_BackgroundTask* task) {
-  if (!task->isRunning) {
+  if (task->isRunning) {
     pthread_cancel(task->thread);
   }
   
@@ -48,7 +48,7 @@ bool MDK_BackgroundTask_getIsRunning(MDK_BackgroundTask* task) {
 }
 
 void MDK_BackgroundTask_stop(MDK_BackgroundTask* task) {
-  if (!task->isRunning) {
+  if (task->isRunning) {
     pthread_cancel(task->thread);
     task->isRunning = false;
   }
