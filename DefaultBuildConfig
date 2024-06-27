@@ -1,5 +1,5 @@
 CC="gcc"
-INSTALL="install"
+INSTALL="cp"
 PREFIX="/usr/local"
 
 BIN_CFLAGS="-O2 -Wall -Iinclude -pthread"
