@@ -81,7 +81,7 @@ IncludeBuildInfo() {
   . ./$1/BuildInfo
 }
 
-. ${1:-./DefaultBuildConfig}
+. $(realpath "${1:-DefaultBuildConfig}")
 
 if [ -f build.ninja ]; then
   rm build.ninja
