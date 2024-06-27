@@ -12,21 +12,10 @@ static void quitRequestEventDefaultTarget(MDK_Event* event) {
 }
 static MDK_Event_Target quitRequestEventTarget = quitRequestEventDefaultTarget;
 
-static void quitRequestReceived() {
-  MDK_Event* quitRequestEvent = malloc(sizeof(MDK_Event));
-  
-  *quitRequestEvent = (MDK_Event){
-    .target = quitRequestEventTarget,
-    .callback = (MDK_Event_Target)free,
-  };
-  
-  MDK_Application_sendEvent(quitRequestEvent);
-}
-
 int MDK_Application_startWithEventLoopImpl(int argc, char** argv, MDK_EventLoopImpl* eventLoop) {
   globalEventLoop = eventLoop;
   
-  eventLoop->init(quitRequestReceived);
+  eventLoop->init(MDK_Application_quit);
   
   MDK_Application_StartEvent* startEvent = malloc(sizeof(MDK_Application_StartEvent));
   
@@ -53,6 +42,17 @@ int MDK_Application_start(int argc, char** argv) {
 
 void MDK_Application_sendEvent(MDK_Event* event) {
   globalEventLoop->sendEvent(event);
+}
+
+void MDK_Application_quit() {
+  MDK_Event* quitRequestEvent = malloc(sizeof(MDK_Event));
+  
+  *quitRequestEvent = (MDK_Event){
+    .target = quitRequestEventTarget,
+    .callback = (MDK_Event_Target)free,
+  };
+  
+  MDK_Application_sendEvent(quitRequestEvent);
 }
 
 void MDK_Application_onStart(void (*target)(MDK_Application_StartEvent* event)) {

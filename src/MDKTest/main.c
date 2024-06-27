@@ -13,6 +13,7 @@ void onTrigger(MDK_Event* event) {
   tickCount++;
   if (tickCount == 5) {
     MDK_Timer_stop(myTimer);
+    MDK_Application_quit();
   }
 }
 
