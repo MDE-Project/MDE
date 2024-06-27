@@ -8,7 +8,6 @@ cat << EOF >> build.ninja
 rule install
   command = $INSTALL \$in \$out
   description = Installing \$out
-
 EOF
 }
 
@@ -18,11 +17,9 @@ rule compile_$1
   command = $CC \$in -c $BIN_CFLAGS $2 -MD -MF \$out.d -o \$out
   depfile = \$out.d
   description = Compiling \$out
-
 rule link_$1
   command = $CC \$in $BIN_LDFLAGS $3 -o \$out
   description = Linking \$out
-
 EOF
 }
 
@@ -32,11 +29,9 @@ rule compile_$1
   command = $CC \$in -c $LIB_CFLAGS $2 -MD -MF \$out.d -o \$out
   depfile = \$out.d
   description = Compiling \$out
-
 rule link_$1
   command = $CC \$in $LIB_LDFLAGS $3 -o \$out
   description = Linking \$out
-
 EOF
 }
 
