@@ -1,4 +1,2 @@
 IncludeBuildInfo src/libMDK
-IncludeBuildInfo include/MDK
-
 IncludeBuildInfo src/MDKTest

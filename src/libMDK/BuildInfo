@@ -9,3 +9,5 @@ libMDK/Timer.c
 
 Install lib libMDK.so
 AddDefaultTarget lib/libMDK.so
+
+IncludeBuildInfo include/MDK
