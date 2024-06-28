@@ -20,4 +20,4 @@ void MDK_Timer_stop(MDK_Timer* timer);
 
 bool MDK_Timer_getIsRunning(MDK_Timer* timer);
 
-void MDK_Timer_onTrigger(MDK_Timer* timer, MDK_Event_Target target);
+void MDK_Timer_onTrigger(MDK_Timer* timer, MDK_Event_Target target, void* data);

@@ -14,6 +14,7 @@ struct MDK_Timer_struct {
   
   MDK_BackgroundTask* timerTask;
   MDK_Event_Target triggerEventTarget;
+  void* triggerEventData;
 };
 
 static uint64_t getMonotonicTime() {
@@ -31,7 +32,8 @@ static void timerOneShotMain(void* timer_raw) {
   MDK_Event* triggerEvent = malloc(sizeof(MDK_Event));
   *triggerEvent = (MDK_Event){
     .target = timer->triggerEventTarget,
-    .callback = (MDK_Event_Target)free,
+    .data = timer->triggerEventData,
+    .callback = (MDK_Event_Callback)free,
   };
   MDK_Application_sendEvent(triggerEvent);
 }
@@ -46,7 +48,8 @@ static void timerIntervalMain(void* timer_raw) {
       MDK_Event* triggerEvent = malloc(sizeof(MDK_Event));
       *triggerEvent = (MDK_Event){
         .target = timer->triggerEventTarget,
-        .callback = (MDK_Event_Target)free,
+        .data = timer->triggerEventData,
+        .callback = (MDK_Event_Callback)free,
       };
       MDK_Application_sendEvent(triggerEvent);
     }
@@ -105,8 +108,9 @@ bool MDK_Timer_getIsRunning(MDK_Timer* timer) {
   }
 }
 
-void MDK_Timer_onTrigger(MDK_Timer* timer, MDK_Event_Target target) {
+void MDK_Timer_onTrigger(MDK_Timer* timer, MDK_Event_Target target, void* data) {
   if (!MDK_Timer_getIsRunning(timer)) {
     timer->triggerEventTarget = target;
+    timer->triggerEventData = data;
   }
 }

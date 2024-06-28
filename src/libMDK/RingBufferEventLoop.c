@@ -53,8 +53,11 @@ static void eventLoopRun() {
     
     pthread_mutex_unlock(&eventRingMutex);
     
-    eventRing[eventRingReadOffset]->target(eventRing[eventRingReadOffset]);
-    eventRing[eventRingReadOffset]->callback(eventRing[eventRingReadOffset]);
+    MDK_Event* volatile event = eventRing[eventRingReadOffset];
+    
+    event->target(event, event->data);
+    event->callback(event);
+    
     eventRing[eventRingReadOffset] = NULL;
     
     pthread_mutex_lock(&eventRingMutex);

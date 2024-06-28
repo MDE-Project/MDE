@@ -5,12 +5,14 @@
 
 static MDK_EventLoopImpl* globalEventLoop;
 
-static void (*startEventTarget)(MDK_Application_StartEvent* event);
+static void (*startEventTarget)(MDK_Application_StartEvent* event, void* data);
+static void* startEventData;
 
-static void quitRequestEventDefaultTarget(MDK_Event* event) {
+static void quitRequestEventDefaultTarget(MDK_Event* event, void* data) {
   exit(0);
 }
 static MDK_Event_Target quitRequestEventTarget = quitRequestEventDefaultTarget;
+static void* quitRequestEventData;
 
 int MDK_Application_startWithEventLoopImpl(int argc, char** argv, MDK_EventLoopImpl* eventLoop) {
   globalEventLoop = eventLoop;
@@ -22,7 +24,8 @@ int MDK_Application_startWithEventLoopImpl(int argc, char** argv, MDK_EventLoopI
   *startEvent = (MDK_Application_StartEvent){
     .inherited = {
       .target = (MDK_Event_Target)startEventTarget,
-      .callback = (MDK_Event_Target)free,
+      .data = startEventData,
+      .callback = (MDK_Event_Callback)free,
     },
     .argc = argc,
     .argv = argv,
@@ -49,16 +52,19 @@ void MDK_Application_quit() {
   
   *quitRequestEvent = (MDK_Event){
     .target = quitRequestEventTarget,
-    .callback = (MDK_Event_Target)free,
+    .data = quitRequestEventData,
+    .callback = (MDK_Event_Callback)free,
   };
   
   MDK_Application_sendEvent(quitRequestEvent);
 }
 
-void MDK_Application_onStart(void (*target)(MDK_Application_StartEvent* event)) {
+void MDK_Application_onStart(void (*target)(MDK_Application_StartEvent* event, void* data), void* data) {
   startEventTarget = target;
+  startEventData = data;
 }
 
-void MDK_Application_onQuitRequest(MDK_Event_Target target) {
+void MDK_Application_onQuitRequest(MDK_Event_Target target, void* data) {
   quitRequestEventTarget = target;
+  quitRequestEventData = data;
 }
