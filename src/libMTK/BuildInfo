@@ -1,6 +1,6 @@
 LibraryBuildRule libMTK.so "$LIBMTK_CFLAGS" "$LIBMTK_LDFLAGS"
 
-Build lib libMTK.so "
+BuildWithDependency lib libMTK.so lib/libMDK.so "
 libMTK/WindowManager.c
 "
 
