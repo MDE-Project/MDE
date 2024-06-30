@@ -1,8 +1,0 @@
-BuildRule MDKTest "$MDKTEST_CFLAGS" "$MDKTEST_LDFLAGS"
-
-BuildWithDependency bin MDKTest lib/libMDK.so "
-MDKTest/main.c
-"
-
-Install bin MDKTest
-AddDefaultTarget bin/MDKTest
