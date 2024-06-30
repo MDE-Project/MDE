@@ -1,3 +1,4 @@
 Install include "
+MTK/WindowManagerBackend/X11.h
 MTK/WindowManager.h
 "
