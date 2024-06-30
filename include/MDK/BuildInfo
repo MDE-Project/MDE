@@ -3,6 +3,7 @@ MDK/Application.h
 MDK/BackgroundTask.h
 MDK/Event.h
 MDK/EventLoopImpl.h
+MDK/Result.h
 MDK/RingBufferEventLoop.h
 MDK/Timer.h
 "
