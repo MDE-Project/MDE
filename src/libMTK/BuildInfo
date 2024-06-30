@@ -1,0 +1,10 @@
+LibraryBuildRule libMTK.so "$LIBMTK_CFLAGS" "$LIBMTK_LDFLAGS"
+
+Build lib libMTK.so "
+libMTK/WindowManager.c
+"
+
+Install lib libMTK.so
+AddDefaultTarget lib/libMTK.so
+
+IncludeBuildInfo include/MTK
