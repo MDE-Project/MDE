@@ -16,6 +16,7 @@ static void backendEventHandler(void* backendState_raw) {
   
   while (true) {
     xcb_generic_event_t* event = xcb_wait_for_event(backendState->x11Connection);
+    free(event);
   }
 }
 
@@ -26,6 +27,7 @@ static MDK_Result backendInit(MTK_WindowManager* windowManager) {
   
   if (xcb_connection_has_error(backendState->x11Connection) > 0) {
     xcb_disconnect(backendState->x11Connection);
+    free(backendState);
     return MDK_Result_genericFailure;
   }
   
