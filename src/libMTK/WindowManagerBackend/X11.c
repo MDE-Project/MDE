@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <xcb/xcb.h>
 
+#include <MDK/BackgroundTask.h>
 #include "../WindowManager_struct.h"
 #include "X11.h"
 
@@ -9,6 +10,14 @@ typedef struct {
   const xcb_setup_t* x11Setup;
   xcb_screen_t* x11Screen;
 } BackendState;
+
+static void backendEventHandler(void* backendState_raw) {
+  BackendState* backendState = backendState_raw;
+  
+  while (true) {
+    xcb_generic_event_t* event = xcb_wait_for_event(backendState->x11Connection);
+  }
+}
 
 static MDK_Result backendInit(MTK_WindowManager* windowManager) {
   BackendState* backendState = windowManager->data;
@@ -24,6 +33,8 @@ static MDK_Result backendInit(MTK_WindowManager* windowManager) {
   
   xcb_screen_iterator_t screenIterator = xcb_setup_roots_iterator(backendState->x11Setup);
   backendState->x11Screen = screenIterator.data; // First screen
+  
+  MDK_BackgroundTask_create(backendEventHandler, backendState);
   
   return MDK_Result_success;
 } 
