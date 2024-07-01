@@ -11,7 +11,7 @@ LIB_LDFLAGS="-s -shared -Llib -pthread"
 LIBMDK_CFLAGS=""
 LIBMDK_LDFLAGS=""
 
-LIBMTK_CFLAGS=""
+LIBMTK_CFLAGS="-fvisibility=hidden"
 LIBMTK_LDFLAGS="-lMDK -lxcb"
 
 MTKTEST_CFLAGS=""
