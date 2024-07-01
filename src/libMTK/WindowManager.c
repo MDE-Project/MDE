@@ -5,7 +5,7 @@
 #include "WindowManager_struct.h"
 #include "WindowManagerBackend/X11.h"
 
-MTK_Export MTK_WindowManager* MTK_WindowManager_create() {
+Export MTK_WindowManager* MTK_WindowManager_create() {
   MTK_WindowManager* windowManager;
   
   windowManager = WindowManagerBackend_X11_create();
