@@ -6,6 +6,8 @@
 
 typedef struct {
   xcb_connection_t* x11Connection;
+  const xcb_setup_t* x11Setup;
+  xcb_screen_t* x11Screen;
 } BackendState;
 
 static MDK_Result backendInit(MTK_WindowManager* windowManager) {
@@ -17,6 +19,11 @@ static MDK_Result backendInit(MTK_WindowManager* windowManager) {
     xcb_disconnect(backendState->x11Connection);
     return MDK_Result_genericFailure;
   }
+  
+  backendState->x11Setup = xcb_get_setup(backendState->x11Connection);
+  
+  xcb_screen_iterator_t screenIterator = xcb_setup_roots_iterator(backendState->x11Setup);
+  backendState->x11Screen = screenIterator.data; // First screen
   
   return MDK_Result_success;
 } 
