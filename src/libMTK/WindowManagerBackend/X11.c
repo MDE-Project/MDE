@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <xcb/xcb.h>
 
-#include "X11.h"
 #include "../WindowManager_struct.h"
+#include "X11.h"
 
 static MDK_Result backendInit(MTK_WindowManager* windowManager) {
   xcb_connection_t* x11Connection = xcb_connect(NULL, NULL);

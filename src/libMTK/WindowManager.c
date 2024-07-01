@@ -11,8 +11,8 @@ MTK_Export MTK_WindowManager* MTK_WindowManager_create() {
   windowManager = WindowManagerBackend_X11_create();
   if (windowManager->init(windowManager) == MDK_Result_success) {
     return windowManager;
-  } else {
-    free(windowManager);
-    abort();
   }
+  
+  free(windowManager);
+  abort();
 }
