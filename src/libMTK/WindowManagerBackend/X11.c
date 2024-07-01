@@ -1,19 +1,27 @@
 #include <stdlib.h>
 #include <xcb/xcb.h>
 
-#include <MTK/WindowManagerBackend/X11.h>
+#include "X11.h"
+#include "../WindowManager_struct.h"
 
-MDK_Result MTK_WindowManagerBackend_X11_create(MTK_WindowManager** windowManager) {
-  *windowManager = malloc(sizeof(MTK_WindowManager));
-  
+static MDK_Result backendInit(MTK_WindowManager* windowManager) {
   xcb_connection_t* x11Connection = xcb_connect(NULL, NULL);
-  (*windowManager)->data = x11Connection;
   
   if (xcb_connection_has_error(x11Connection) > 0) {
     xcb_disconnect(x11Connection);
-    free(*windowManager);
     return MDK_Result_genericFailure;
   }
   
+  windowManager->data = x11Connection;
   return MDK_Result_success;
+} 
+
+MTK_WindowManager* WindowManagerBackend_X11_create() {
+  MTK_WindowManager* windowManager = malloc(sizeof(MTK_WindowManager));
+  
+  *windowManager = (MTK_WindowManager){
+    .init = backendInit,
+  };
+  
+  return windowManager;
 }
