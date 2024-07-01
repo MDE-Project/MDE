@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "Export.h"
@@ -14,5 +15,7 @@ Export MTK_WindowManager* MTK_WindowManager_create() {
   }
   
   free(windowManager);
+  
+  fputs("All windowing system backends failed! Aborting!\n", stderr);
   abort();
 }
