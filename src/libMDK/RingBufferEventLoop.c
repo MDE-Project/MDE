@@ -44,9 +44,9 @@ static void eventLoopInit(void (*quitRequestCallback)()) {
 static void eventLoopRun() {
   MDK_BackgroundTask_create(signalReceiver, NULL);
   
+  pthread_mutex_lock(&eventRingMutex);
+  
   while (true) {
-    pthread_mutex_lock(&eventRingMutex);
-    
     if (eventRing[eventRingReadOffset] == NULL) {
       pthread_cond_wait(&eventRingCond, &eventRingMutex);
     }
@@ -62,7 +62,6 @@ static void eventLoopRun() {
     
     pthread_mutex_lock(&eventRingMutex);
     eventRingReadOffset = (eventRingReadOffset+1) % EVENT_RING_SIZE;
-    pthread_mutex_unlock(&eventRingMutex);
   }
 }
 
