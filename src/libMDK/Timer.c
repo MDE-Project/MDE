@@ -27,7 +27,10 @@ static uint64_t getMonotonicTime() {
 static void timerOneShotMain(void* timer_raw) {
   MDK_Timer* timer = timer_raw;
   
-  usleep(timer->nextTrigger - getMonotonicTime());
+  uint64_t currentMonotonicTime = getMonotonicTime();
+  if (currentMonotonicTime > timer->nextTrigger) {
+    usleep(timer->nextTrigger - currentMonotonicTime);
+  }
   
   MDK_Application_sendEvent(NULL, timer->triggerEventTarget, timer->triggerEventData, (MDK_Event_Callback)free);
 }
@@ -42,7 +45,10 @@ static void timerIntervalMain(void* timer_raw) {
       MDK_Application_sendEvent(NULL, timer->triggerEventTarget, timer->triggerEventData, (MDK_Event_Callback)free);
     }
     
-    usleep(timer->nextTrigger - getMonotonicTime());
+    uint64_t currentMonotonicTime = getMonotonicTime();
+    if (currentMonotonicTime > timer->nextTrigger) {
+      usleep(timer->nextTrigger - currentMonotonicTime);
+    }
   }
 }
 
@@ -50,7 +56,7 @@ MDK_Timer* MDK_Timer_create(uint64_t microseconds, MDK_Timer_Type type) {
   MDK_Timer* timer = malloc(sizeof(MDK_Timer));
   
   timer->type = type;
-  timer->interval = microseconds >= 1000 ? microseconds : 1000;
+  timer->interval = microseconds;
   timer->timerTask = NULL;
   timer->triggerEventTarget = NULL;
   
