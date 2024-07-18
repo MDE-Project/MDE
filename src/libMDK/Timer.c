@@ -29,13 +29,7 @@ static void timerOneShotMain(void* timer_raw) {
   
   usleep(timer->nextTrigger - getMonotonicTime());
   
-  MDK_Event* triggerEvent = malloc(sizeof(MDK_Event));
-  *triggerEvent = (MDK_Event){
-    .target = timer->triggerEventTarget,
-    .data = timer->triggerEventData,
-    .callback = (MDK_Event_Callback)free,
-  };
-  MDK_Application_sendEvent(triggerEvent);
+  MDK_Application_sendEvent(NULL, timer->triggerEventTarget, timer->triggerEventData, (MDK_Event_Callback)free);
 }
 
 static void timerIntervalMain(void* timer_raw) {
@@ -45,13 +39,7 @@ static void timerIntervalMain(void* timer_raw) {
     if (getMonotonicTime() >= timer->nextTrigger) {
       timer->nextTrigger += timer->interval;
       
-      MDK_Event* triggerEvent = malloc(sizeof(MDK_Event));
-      *triggerEvent = (MDK_Event){
-        .target = timer->triggerEventTarget,
-        .data = timer->triggerEventData,
-        .callback = (MDK_Event_Callback)free,
-      };
-      MDK_Application_sendEvent(triggerEvent);
+      MDK_Application_sendEvent(NULL, timer->triggerEventTarget, timer->triggerEventData, (MDK_Event_Callback)free);
     }
     
     usleep(timer->nextTrigger - getMonotonicTime());

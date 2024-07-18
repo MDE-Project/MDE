@@ -22,16 +22,11 @@ int MDK_Application_startWithEventLoopImpl(int argc, char** argv, MDK_EventLoopI
   MDK_Application_StartEvent* startEvent = malloc(sizeof(MDK_Application_StartEvent));
   
   *startEvent = (MDK_Application_StartEvent){
-    .inherited = {
-      .target = (MDK_Event_Target)startEventTarget,
-      .data = startEventData,
-      .callback = (MDK_Event_Callback)free,
-    },
     .argc = argc,
     .argv = argv,
   };
   
-  eventLoop->sendEvent((MDK_Event*)startEvent);
+  MDK_Application_sendEvent((MDK_Event*)startEvent, (MDK_Event_Target)startEventTarget, startEventData, (MDK_Event_Callback)free);
   
   eventLoop->run();
   
@@ -43,20 +38,20 @@ int MDK_Application_start(int argc, char** argv) {
   return MDK_Application_startWithEventLoopImpl(argc, argv, &eventLoop);
 }
 
-void MDK_Application_sendEvent(MDK_Event* event) {
+void MDK_Application_sendEvent(MDK_Event* event, MDK_Event_Target target, void* data, MDK_Event_Callback callback) {
+  if (!event) {
+    event = malloc(sizeof(MDK_Event));
+  }
+  
+  event->target = target;
+  event->data = data;
+  event->callback = callback;
+  
   globalEventLoop->sendEvent(event);
 }
 
 void MDK_Application_quit() {
-  MDK_Event* quitRequestEvent = malloc(sizeof(MDK_Event));
-  
-  *quitRequestEvent = (MDK_Event){
-    .target = quitRequestEventTarget,
-    .data = quitRequestEventData,
-    .callback = (MDK_Event_Callback)free,
-  };
-  
-  MDK_Application_sendEvent(quitRequestEvent);
+  MDK_Application_sendEvent(NULL, quitRequestEventTarget, quitRequestEventData, (MDK_Event_Callback)free);
 }
 
 void MDK_Application_onStart(MDK_Application_StartEvent_Target target, void* data) {
