@@ -5,7 +5,7 @@
 
 static MDK_EventLoopImpl* globalEventLoop;
 
-static void (*startEventTarget)(MDK_Application_StartEvent* event, void* data);
+static MDK_Application_StartEvent_Target startEventTarget;
 static void* startEventData;
 
 static void quitRequestEventDefaultTarget(MDK_Event* event, void* data) {
@@ -59,7 +59,7 @@ void MDK_Application_quit() {
   MDK_Application_sendEvent(quitRequestEvent);
 }
 
-void MDK_Application_onStart(void (*target)(MDK_Application_StartEvent* event, void* data), void* data) {
+void MDK_Application_onStart(MDK_Application_StartEvent_Target target, void* data) {
   startEventTarget = target;
   startEventData = data;
 }
