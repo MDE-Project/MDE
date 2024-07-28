@@ -1,8 +1,0 @@
-BuildRule MTKTest "$MTKTEST_CFLAGS" "$MTKTEST_LDFLAGS"
-
-BuildWithDependency bin MTKTest "lib/libMDK.so lib/libMTK.so" "
-MTKTest/main.c
-"
-
-Install bin MTKTest
-AddDefaultTarget bin/MTKTest
