@@ -1,0 +1,7 @@
+. ./DefaultBuildConfig
+
+BIN_CFLAGS="-g -O2 -Wall -Iinclude -pthread"
+BIN_LDFLAGS="-g -Llib -pthread"
+
+LIB_CFLAGS="-g -O2 -fPIC -Wall -Iinclude -pthread"
+LIB_LDFLAGS="-g -shared -Llib -pthread"
