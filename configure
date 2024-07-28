@@ -86,3 +86,10 @@ EOF
 IncludeBuildInfo .
 
 echo "build install: phony$install_files" >> build.ninja
+
+if [ ! -f .clangd ]; then
+cat << EOF > .clangd
+CompileFlags:
+  Add: [ -xc, -I$(realpath include)]
+EOF
+fi

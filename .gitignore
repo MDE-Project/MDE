@@ -1,6 +1,7 @@
 Build
 build.ninja
 .ninja_log
+.clangd
 
 CustomBuildConfig
 
