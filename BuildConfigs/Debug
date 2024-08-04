@@ -1,4 +1,4 @@
-. ./DefaultBuildConfig
+. BuildConfigs/Default
 
 BIN_CFLAGS="-g -O2 -Wall -Iinclude -pthread"
 BIN_LDFLAGS="-g -Llib -pthread"
