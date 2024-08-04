@@ -1,10 +1,10 @@
 LibraryBuildRule libMDK.so "$LIBMDK_CFLAGS" "$LIBMDK_LDFLAGS"
 
 Build lib libMDK.so "
-libMDK/Application.c
-libMDK/BackgroundTask.c
-libMDK/RingBufferEventLoop.c
-libMDK/Timer.c
+libMDK/GenericSet.c
+libMDK/Object.c
+libMDK/Set.c
+libMDK/TypeSig.c
 "
 
 Install lib libMDK.so
