@@ -17,13 +17,11 @@ MDK_GenericSet* MDK_GenericSet_create(size_t itemSize, unsigned initialSize) {
 }
 
 void MDK_GenericSet_init(MDK_GenericSet* this, size_t itemSize, unsigned initialSize) {
-  *this = (MDK_GenericSet){
-    .sig = MDK_GenericSet_typeSig,
-    .storageSize = initialSize,
-    .itemSize = itemSize,
-    .length = 0,
-    .rawArray = malloc(initialSize*itemSize),
-  };
+  this->sig = MDK_GenericSet_typeSig;
+  this->storageSize = initialSize;
+  this->itemSize = itemSize;
+  this->length = 0;
+  this->rawArray = malloc(initialSize*itemSize);
 }
 
 void MDK_GenericSet_push(MDK_GenericSet* this, void* item) {
@@ -41,7 +39,7 @@ void MDK_GenericSet_push(MDK_GenericSet* this, void* item) {
 void MDK_GenericSet_remove(MDK_GenericSet* this, unsigned i) {
   MDK_TypeSig_ensure(this->sig, MDK_GenericSet_typeSig);
   
-  memcpy(this->rawArray + i*this->itemSize, this->rawArray + this->length*this->itemSize, this->itemSize);
+  memcpy(this->rawArray + i*this->itemSize, this->rawArray + (this->length-1)*this->itemSize, this->itemSize);
   this->length--;
 }
 
