@@ -12,12 +12,16 @@ void printHelp() {
         "2 - Set and object ref-counting test\n", stdout);
 }
 
+void setRefTestDestructor(MDK_Object* this) {
+  puts("Destructor called");
+}
+
 void setRefTest() {
   MDK_Set* set = MDK_Set_create(1);
   REF(set);
   
   for (unsigned i = 0; i < 4; i++) {
-    MDK_Object* object = MDK_Object_create(NULL, 0);
+    MDK_Object* object = MDK_Object_create(setRefTestDestructor, 0);
     MDK_Set_push(set, object);
   }
   
