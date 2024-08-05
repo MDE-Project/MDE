@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <MDK/GenericSet.h>
 #include <MDK/Object.h>
 #include <MDK/Set.h>
 #include <MDK/Shorthand.h>
@@ -9,7 +10,8 @@ void printHelp() {
   fputs("MDK manual test utility\n"
         "Usage: MDKTest <testNum>\n"
         "1 - Type signature checking\n"
-        "2 - Set and object ref-counting test\n", stdout);
+        "2 - Set and object ref-counting test\n"
+        "3 - GenericSet test\n", stdout);
 }
 
 void setRefTestDestructor(MDK_Object* this) {
@@ -32,6 +34,54 @@ void setRefTest() {
   UNREF(set);
 }
 
+void genericSetTestPrint(MDK_GenericSet* set) {
+  unsigned* array = MDK_GenericSet_getRawArray(set);
+  unsigned length = MDK_GenericSet_getLength(set);
+  
+  for (unsigned i = 0; i < length; i++) {
+    printf("%u\n", array[i]);
+  }
+}
+
+void genericSetTest() {
+  MDK_GenericSet* set = MDK_GenericSet_create(sizeof(unsigned), 1);
+  REF(set);
+  unsigned* array = MDK_GenericSet_getRawArray(set);
+  
+  unsigned item;
+  
+  item = 1;
+  MDK_GenericSet_push(set, &item);
+  item = 2;
+  MDK_GenericSet_push(set, &item);
+  item = 3;
+  MDK_GenericSet_push(set, &item);
+  genericSetTestPrint(set);
+  
+  puts("---");
+  
+  array[1] = 4;
+  genericSetTestPrint(set);
+  
+  puts("---");
+  
+  item = 2;
+  MDK_GenericSet_push(set, &item);
+  genericSetTestPrint(set);
+  
+  puts("---");
+  
+  MDK_GenericSet_remove(set, 0);
+  genericSetTestPrint(set);
+  
+  puts("---");
+  
+  MDK_GenericSet_remove(set, 1);
+  genericSetTestPrint(set);
+  
+  UNREF(set);
+}
+
 int main(int argc, char* argv[]) {
   if (argc != 2) {
     printHelp();
@@ -46,6 +96,9 @@ int main(int argc, char* argv[]) {
     break;
     case 2:
       setRefTest();
+    break;
+    case 3:
+      genericSetTest();
     break;
     default:
       printHelp();
