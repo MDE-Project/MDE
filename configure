@@ -34,7 +34,7 @@ Build() {
     object="Build/$(echo $file | sed "s/\\.c$/.o/")"
     objects="$objects $object"
     
-    echo "build $object: compile_$2 src/$file" >> build.ninja
+    echo "build $object: compile_$2 Source/$file" >> build.ninja
   done
   
   echo "build $1/$2: link_$2$objects" >> build.ninja
@@ -47,7 +47,7 @@ BuildWithDependency() {
     object="Build/$(echo $file | sed "s/\\.c$/.o/")"
     objects="$objects $object"
     
-    echo "build $object: compile_$2 src/$file" >> build.ninja
+    echo "build $object: compile_$2 Source/$file" >> build.ninja
   done
   
   echo "build $1/$2: link_$2$objects | $3" >> build.ninja
