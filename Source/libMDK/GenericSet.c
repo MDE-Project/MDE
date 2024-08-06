@@ -5,11 +5,6 @@
 #include <MDK/Object.h>
 #include <MDK/Shorthand.h>
 
-static void destructor(MDK_GenericSet* this) {
-  MDK_TypeSig_ensure(this->sig, MDK_GenericSet_typeSig);  
-  free(this->rawArray);
-}
-
 MDK_GenericSet* MDK_GenericSet_create(size_t itemSize, unsigned initialSize) {
   MDK_GenericSet* this = OBJ_CREATE(MDK_GenericSet);
   MDK_GenericSet_init(this, itemSize, initialSize);
@@ -22,6 +17,11 @@ void MDK_GenericSet_init(MDK_GenericSet* this, size_t itemSize, unsigned initial
   this->itemSize = itemSize;
   this->length = 0;
   this->rawArray = malloc(initialSize*itemSize);
+}
+
+void MDK_GenericSet_destroy(MDK_GenericSet* this) {
+  MDK_TypeSig_ensure(this->sig, MDK_GenericSet_typeSig);
+  free(this->rawArray);
 }
 
 void MDK_GenericSet_push(MDK_GenericSet* this, void* item) {

@@ -17,6 +17,7 @@ typedef struct {
 
 MDK_GenericSet* MDK_GenericSet_create(size_t itemSize, unsigned initialSize);
 void MDK_GenericSet_init(MDK_GenericSet* this, size_t itemSize, unsigned initialSize);
+void MDK_GenericSet_destroy(MDK_GenericSet* this);
 
 void MDK_GenericSet_push(MDK_GenericSet* this, void* item);
 void MDK_GenericSet_remove(MDK_GenericSet* this, unsigned i);

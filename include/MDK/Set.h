@@ -16,6 +16,7 @@ typedef struct {
 
 MDK_Set* MDK_Set_create(unsigned initialSize);
 void MDK_Set_init(MDK_Set* this, unsigned initialSize);
+void MDK_Set_destroy(MDK_Set* this);
 
 void MDK_Set_push(MDK_Set* this, MDK_Object* object);
 void MDK_Set_remove(MDK_Set* this, unsigned i);
