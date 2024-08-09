@@ -17,7 +17,9 @@ void MDK_Event_init(MDK_Event* this, MDK_Object* source, MDK_Object* target, MDK
   }
   
   this->target = target;
-  REF(target);
+  if (target) {
+    REF(target);
+  }
   
   this->handler = handler;
 }
@@ -29,5 +31,7 @@ void MDK_Event_destroy(MDK_Event* this) {
     UNREF(this->source);
   }
   
-  UNREF(this->target);
+  if (this->target) {
+    UNREF(this->target);
+  }
 }
