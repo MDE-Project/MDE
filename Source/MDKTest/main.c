@@ -82,7 +82,7 @@ void genericSetTest() {
   UNREF(set);
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char** argv) {
   if (argc != 2) {
     printHelp();
     return 1;
