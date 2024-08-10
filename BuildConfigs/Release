@@ -2,10 +2,10 @@ CC="gcc"
 INSTALL="cp"
 PREFIX="/usr/local"
 
-BIN_CFLAGS="-O2 -Wall -Iinclude -pthread"
+BIN_CFLAGS="-O2 -Iinclude -pthread"
 BIN_LDFLAGS="-s -Llib -pthread"
 
-LIB_CFLAGS="-O2 -fPIC -Wall -Iinclude -pthread"
+LIB_CFLAGS="-O2 -fPIC -Iinclude -pthread"
 LIB_LDFLAGS="-s -shared -Llib -pthread"
 
 LIBMDK_CFLAGS=""

@@ -1,9 +1,9 @@
-. BuildConfigs/Default
+. BuildConfigs/Release
 
-BIN_CFLAGS="-g -O2 -Wall -Iinclude -pthread"
+BIN_CFLAGS="-g -O2 -Wall -Werror -Iinclude -pthread"
 BIN_LDFLAGS="-g -Llib -pthread"
 
-LIB_CFLAGS="-g -O2 -fPIC -Wall -Iinclude -pthread"
+LIB_CFLAGS="-g -O2 -fPIC -Wall -Werror -Iinclude -pthread"
 LIB_LDFLAGS="-g -shared -Llib -pthread"
 
 LIBMDK_CFLAGS="-DMDK_Debug"

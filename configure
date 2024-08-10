@@ -69,7 +69,7 @@ IncludeBuildInfo() {
   . ./$1/BuildInfo
 }
 
-. "BuildConfigs/${1:-Default}"
+. "BuildConfigs/${1:-Release}"
 
 if [ -f build.ninja ]; then
   rm build.ninja
