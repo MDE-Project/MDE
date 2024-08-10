@@ -1,3 +1,2 @@
 IncludeBuildInfo Source/libMDK
-#IncludeBuildInfo Source/libMTK
 IncludeBuildInfo Source/MDKTest
