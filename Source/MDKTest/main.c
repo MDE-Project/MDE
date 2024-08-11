@@ -16,7 +16,7 @@ void printHelp() {
         "4 - Inherited event test\n", stdout);
 }
 
-void setRefTestDestructor(MDK_Object* this) {
+void dummyDestructor(MDK_Object* this) {
   puts("Destructor called");
 }
 
@@ -25,7 +25,7 @@ void setRefTest() {
   REF(set);
   
   for (unsigned i = 0; i < 4; i++) {
-    MDK_Object* object = MDK_Object_create(setRefTestDestructor, 0);
+    MDK_Object* object = MDK_Object_create(dummyDestructor, 0);
     MDK_Set_push(set, object);
   }
   
@@ -88,7 +88,7 @@ void inheritedEventTest(int argc, char** argv) {
   MDK_Set* set = MDK_Set_create(4);
   
   for (unsigned i = 0; i < 4; i++) {
-    MDK_Object* object = MDK_Object_create(setRefTestDestructor, 0);
+    MDK_Object* object = MDK_Object_create(dummyDestructor, 0);
     MDK_Set_push(set, object);
   }
   
