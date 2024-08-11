@@ -17,5 +17,6 @@ void MDK_Application_StartEvent_init(MDK_Application_StartEvent* this, MDK_Objec
 }
 
 void MDK_Application_StartEvent_destroy(MDK_Application_StartEvent* this) {
+  MDK_TypeSig_ensure(this->sig, MDK_Application_StartEvent_typeSig);
   MDK_Event_destroy(&this->inherited);
 }
