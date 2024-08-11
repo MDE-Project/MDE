@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <MDK/Application/StartEvent.h>
 #include <MDK/GenericSet.h>
 #include <MDK/Object.h>
 #include <MDK/Set.h>
@@ -11,7 +12,8 @@ void printHelp() {
         "Usage: MDKTest <testNum>\n"
         "1 - Type signature checking\n"
         "2 - Set and object ref-counting test\n"
-        "3 - GenericSet test\n", stdout);
+        "3 - GenericSet test\n"
+        "4 - Inherited event test\n", stdout);
 }
 
 void setRefTestDestructor(MDK_Object* this) {
@@ -82,6 +84,15 @@ void genericSetTest() {
   UNREF(set);
 }
 
+void inheritedEventTest(int argc, char** argv) {
+  MDK_Application_StartEvent* startEvent = MDK_Application_StartEvent_create(NULL, (void*)0x1234, argc, argv);
+  REF(startEvent);
+  
+  printf("%p %i %s\n", startEvent->inherited.handler, startEvent->argc, startEvent->argv[1]);
+  
+  UNREF(startEvent);
+}
+
 int main(int argc, char** argv) {
   if (argc != 2) {
     printHelp();
@@ -99,6 +110,9 @@ int main(int argc, char** argv) {
     break;
     case 3:
       genericSetTest();
+    break;
+    case 4:
+      inheritedEventTest(argc, argv);
     break;
     default:
       printHelp();
