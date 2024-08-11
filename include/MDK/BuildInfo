@@ -1,5 +1,6 @@
 Install include "
 MDK/Application/StartEvent.h
+MDK/Application.h
 MDK/Event.h
 MDK/GenericSet.h
 MDK/Object.h

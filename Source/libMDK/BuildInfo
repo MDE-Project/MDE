@@ -2,6 +2,7 @@ LibraryBuildRule libMDK.so "$LIBMDK_CFLAGS" "$LIBMDK_LDFLAGS"
 
 Build lib libMDK.so "
 libMDK/Application/StartEvent.c
+libMDK/Application.c
 libMDK/Event.c
 libMDK/GenericSet.c
 libMDK/Object.c
