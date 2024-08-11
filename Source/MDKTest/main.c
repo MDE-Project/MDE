@@ -85,7 +85,14 @@ void genericSetTest() {
 }
 
 void inheritedEventTest(int argc, char** argv) {
-  MDK_Application_StartEvent* startEvent = MDK_Application_StartEvent_create(NULL, (void*)0x1234, argc, argv);
+  MDK_Set* set = MDK_Set_create(4);
+  
+  for (unsigned i = 0; i < 4; i++) {
+    MDK_Object* object = MDK_Object_create(setRefTestDestructor, 0);
+    MDK_Set_push(set, object);
+  }
+  
+  MDK_Application_StartEvent* startEvent = MDK_Application_StartEvent_create(OBJ(set), (void*)0x1234, argc, argv);
   REF(startEvent);
   
   printf("%p %i %s\n", startEvent->inherited.handler, startEvent->argc, startEvent->argv[1]);
