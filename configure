@@ -2,6 +2,7 @@
 set -e
 
 install_files=""
+build_config="${1:-Release}"
 
 BuildRule() {
 cat << EOF >> build.ninja
@@ -31,7 +32,7 @@ Build() {
   objects=
   
   for file in $3; do
-    object="Build/$(echo $file | sed "s/\\.c$/.o/")"
+    object="Build/$build_config/$(echo $file | sed "s/\\.c$/.o/")"
     objects="$objects $object"
     
     echo "build $object: compile_$2 Source/$file" >> build.ninja
@@ -44,7 +45,7 @@ BuildWithDependency() {
   objects=
   
   for file in $4; do
-    object="Build/$(echo $file | sed "s/\\.c$/.o/")"
+    object="Build/$build_config/$(echo $file | sed "s/\\.c$/.o/")"
     objects="$objects $object"
     
     echo "build $object: compile_$2 Source/$file" >> build.ninja
@@ -69,7 +70,7 @@ IncludeBuildInfo() {
   . ./$1/BuildInfo
 }
 
-. "BuildConfigs/${1:-Release}"
+. "BuildConfigs/$build_config"
 
 if [ -f build.ninja ]; then
   rm build.ninja
