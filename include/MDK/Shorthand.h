@@ -8,4 +8,4 @@
 #define REF(object) MDK_Object_ref((MDK_Object*)object)
 #define UNREF(object) MDK_Object_unref((MDK_Object*)object)
 
-#define HND(handler) (MDK_Event_Handler)handler
+#define EVT(event) (MDK_Event*)event

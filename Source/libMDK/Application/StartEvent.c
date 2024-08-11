@@ -10,7 +10,7 @@ MDK_Application_StartEvent* MDK_Application_StartEvent_create(MDK_Object* target
 }
 
 void MDK_Application_StartEvent_init(MDK_Application_StartEvent* this, MDK_Object* target, MDK_Application_StartEvent_Handler handler, int argc, char** argv) {
-  MDK_Event_init(&this->inherited, NULL, target, HND(handler));
+  MDK_Event_init(&this->inherited, NULL, target, (MDK_Event_Handler)handler);
   this->sig = MDK_Application_StartEvent_typeSig;
   this->argc = argc;
   this->argv = argv;
