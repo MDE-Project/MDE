@@ -14,8 +14,8 @@ typedef struct {
   MDK_Object** rawArray;
 } MDK_Set;
 
-MDK_Set* MDK_Set_create(unsigned initialSize);
-void MDK_Set_init(MDK_Set* this, unsigned initialSize);
+MDK_Set* MDK_Set_create(unsigned storageSize);
+void MDK_Set_init(MDK_Set* this, unsigned storageSize);
 void MDK_Set_destroy(MDK_Set* this);
 
 void MDK_Set_push(MDK_Set* this, MDK_Object* object);

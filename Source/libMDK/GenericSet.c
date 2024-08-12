@@ -5,18 +5,18 @@
 #include <MDK/Object.h>
 #include <MDK/Shorthand.h>
 
-MDK_GenericSet* MDK_GenericSet_create(size_t itemSize, unsigned initialSize) {
+MDK_GenericSet* MDK_GenericSet_create(size_t itemSize, unsigned storageSize) {
   MDK_GenericSet* this = OBJ_CREATE(MDK_GenericSet);
-  MDK_GenericSet_init(this, itemSize, initialSize);
+  MDK_GenericSet_init(this, itemSize, storageSize);
   return this;
 }
 
-void MDK_GenericSet_init(MDK_GenericSet* this, size_t itemSize, unsigned initialSize) {
+void MDK_GenericSet_init(MDK_GenericSet* this, size_t itemSize, unsigned storageSize) {
   this->sig = MDK_GenericSet_typeSig;
-  this->storageSize = initialSize;
+  this->storageSize = storageSize;
   this->itemSize = itemSize;
   this->length = 0;
-  this->rawArray = malloc(initialSize*itemSize);
+  this->rawArray = malloc(storageSize*itemSize);
 }
 
 void MDK_GenericSet_destroy(MDK_GenericSet* this) {

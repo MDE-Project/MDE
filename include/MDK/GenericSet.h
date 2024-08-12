@@ -15,8 +15,8 @@ typedef struct {
   void* rawArray;
 } MDK_GenericSet;
 
-MDK_GenericSet* MDK_GenericSet_create(size_t itemSize, unsigned initialSize);
-void MDK_GenericSet_init(MDK_GenericSet* this, size_t itemSize, unsigned initialSize);
+MDK_GenericSet* MDK_GenericSet_create(size_t itemSize, unsigned storageSize);
+void MDK_GenericSet_init(MDK_GenericSet* this, size_t itemSize, unsigned storageSize);
 void MDK_GenericSet_destroy(MDK_GenericSet* this);
 
 void MDK_GenericSet_push(MDK_GenericSet* this, void* item);

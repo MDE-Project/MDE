@@ -4,17 +4,17 @@
 #include <MDK/Set.h>
 #include <MDK/Shorthand.h>
 
-MDK_Set* MDK_Set_create(unsigned initialSize) {
+MDK_Set* MDK_Set_create(unsigned storageSize) {
   MDK_Set* this = OBJ_CREATE(MDK_Set);
-  MDK_Set_init(this, initialSize);
+  MDK_Set_init(this, storageSize);
   return this;
 }
 
-void MDK_Set_init(MDK_Set* this, unsigned initialSize) {
+void MDK_Set_init(MDK_Set* this, unsigned storageSize) {
   this->sig = MDK_Set_typeSig;
-  this->storageSize = initialSize;
+  this->storageSize = storageSize;
   this->length = 0;
-  this->rawArray = malloc(initialSize*sizeof(MDK_Object*));
+  this->rawArray = malloc(storageSize*sizeof(MDK_Object*));
 }
 
 void MDK_Set_destroy(MDK_Set* this) {
