@@ -27,6 +27,7 @@ int MDK_Application_start(int argc, char** argv) {
 
 int MDK_Application_startWithEventLoopImpl(int argc, char** argv, MDK_EventLoopImpl* eventLoopImpl) {
   eventLoop = eventLoopImpl;
+  REF(eventLoop);
   
   MDK_EventLoopImpl_prepare(eventLoop, MDK_Application_requestQuit);
   
