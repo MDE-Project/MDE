@@ -3,6 +3,7 @@ if [ $INSTALL_HEADERS = "true" ]; then
   MDK/Application/StartEvent.h
   MDK/Application.h
   MDK/Event.h
+  MDK/EventLoopImpl.h
   MDK/GenericSet.h
   MDK/Object.h
   MDK/Set.h
