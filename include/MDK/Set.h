@@ -1,13 +1,13 @@
 #pragma once
 
 #include <MDK/Object.h>
-#include <MDK/TypeSig.h>
+#include <MDK/TypeID.h>
 
-MDK_TypeSig_create(MDK_Set, 'S', 'e', 't', ' ');
+MDK_TypeID_create(MDK_Set, 'S', 'e', 't', ' ');
 
 typedef struct {
   MDK_Object inherited;
-  MDK_TypeSig sig;
+  MDK_TypeID id;
   
   unsigned storageSize;
   unsigned length;

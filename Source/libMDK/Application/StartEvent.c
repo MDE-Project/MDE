@@ -11,12 +11,12 @@ MDK_Application_StartEvent* MDK_Application_StartEvent_create(MDK_Object* target
 
 void MDK_Application_StartEvent_init(MDK_Application_StartEvent* this, MDK_Object* target, MDK_Application_StartEvent_Handler handler, int argc, char** argv) {
   MDK_Event_init(&this->inherited, NULL, target, (MDK_Event_Handler)handler);
-  this->sig = MDK_Application_StartEvent_typeSig;
+  this->id = MDK_Application_StartEvent_typeID;
   this->argc = argc;
   this->argv = argv;
 }
 
 void MDK_Application_StartEvent_destroy(MDK_Application_StartEvent* this) {
-  MDK_TypeSig_ensure(this->sig, MDK_Application_StartEvent_typeSig);
+  MDK_TypeID_ensure(this->id, MDK_Application_StartEvent_typeID);
   MDK_Event_destroy(&this->inherited);
 }

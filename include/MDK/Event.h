@@ -1,19 +1,19 @@
 #pragma once
 
 #include <MDK/Object.h>
-#include <MDK/TypeSig.h>
+#include <MDK/TypeID.h>
 
 #define MDK_Event_createHandlerType(type) \
   typedef void (*type##_Handler)(MDK_Object* this, type* event)
 
 typedef struct MDK_Event_struct MDK_Event;
-MDK_TypeSig_create(MDK_Event, 'E', 'v', 'e', 'n');
+MDK_TypeID_create(MDK_Event, 'E', 'v', 'e', 'n');
 
 MDK_Event_createHandlerType(MDK_Event);
 
 struct MDK_Event_struct {
   MDK_Object inherited;
-  MDK_TypeSig sig;
+  MDK_TypeID id;
   
   MDK_Object* source;
   MDK_Object* target;

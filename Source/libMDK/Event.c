@@ -9,7 +9,7 @@ MDK_Event* MDK_Event_create(MDK_Object* source, MDK_Object* target, MDK_Event_Ha
 }
 
 void MDK_Event_init(MDK_Event* this, MDK_Object* source, MDK_Object* target, MDK_Event_Handler handler) {
-  this->sig = MDK_Event_typeSig;
+  this->id = MDK_Event_typeID;
   
   this->source = source;
   if (source) {
@@ -25,7 +25,7 @@ void MDK_Event_init(MDK_Event* this, MDK_Object* source, MDK_Object* target, MDK
 }
 
 void MDK_Event_destroy(MDK_Event* this) {
-  MDK_TypeSig_ensure(this->sig, MDK_Event_typeSig);
+  MDK_TypeID_ensure(this->id, MDK_Event_typeID);
   
   if (this->source) {
     UNREF(this->source);

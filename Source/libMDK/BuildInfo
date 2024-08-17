@@ -7,7 +7,7 @@ libMDK/Event.c
 libMDK/GenericSet.c
 libMDK/Object.c
 libMDK/Set.c
-libMDK/TypeSig.c
+libMDK/TypeID.c
 "
 
 Install lib libMDK.so

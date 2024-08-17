@@ -6,5 +6,5 @@ MDK/GenericSet.h
 MDK/Object.h
 MDK/Set.h
 MDK/Shorthand.h
-MDK/TypeSig.h
+MDK/TypeID.h
 "

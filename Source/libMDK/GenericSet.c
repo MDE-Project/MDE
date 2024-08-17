@@ -12,7 +12,7 @@ MDK_GenericSet* MDK_GenericSet_create(size_t itemSize, unsigned storageSize) {
 }
 
 void MDK_GenericSet_init(MDK_GenericSet* this, size_t itemSize, unsigned storageSize) {
-  this->sig = MDK_GenericSet_typeSig;
+  this->id = MDK_GenericSet_typeID;
   this->storageSize = storageSize;
   this->itemSize = itemSize;
   this->length = 0;
@@ -20,12 +20,12 @@ void MDK_GenericSet_init(MDK_GenericSet* this, size_t itemSize, unsigned storage
 }
 
 void MDK_GenericSet_destroy(MDK_GenericSet* this) {
-  MDK_TypeSig_ensure(this->sig, MDK_GenericSet_typeSig);
+  MDK_TypeID_ensure(this->id, MDK_GenericSet_typeID);
   free(this->rawArray);
 }
 
 void MDK_GenericSet_push(MDK_GenericSet* this, void* item) {
-  MDK_TypeSig_ensure(this->sig, MDK_GenericSet_typeSig);
+  MDK_TypeID_ensure(this->id, MDK_GenericSet_typeID);
   
   if (this->length >= this->storageSize) {
     this->storageSize *= 2;
@@ -37,18 +37,18 @@ void MDK_GenericSet_push(MDK_GenericSet* this, void* item) {
 }
 
 void MDK_GenericSet_remove(MDK_GenericSet* this, unsigned i) {
-  MDK_TypeSig_ensure(this->sig, MDK_GenericSet_typeSig);
+  MDK_TypeID_ensure(this->id, MDK_GenericSet_typeID);
   
   memcpy(this->rawArray + i*this->itemSize, this->rawArray + (this->length-1)*this->itemSize, this->itemSize);
   this->length--;
 }
 
 unsigned MDK_GenericSet_getLength(MDK_GenericSet* this) {
-  MDK_TypeSig_ensure(this->sig, MDK_GenericSet_typeSig);
+  MDK_TypeID_ensure(this->id, MDK_GenericSet_typeID);
   return this->length;
 }
 
 void* MDK_GenericSet_getRawArray(MDK_GenericSet* this) {
-  MDK_TypeSig_ensure(this->sig, MDK_GenericSet_typeSig);
+  MDK_TypeID_ensure(this->id, MDK_GenericSet_typeID);
   return this->rawArray;
 }

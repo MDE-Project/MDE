@@ -1,13 +1,13 @@
 #pragma once
 
 #include <MDK/Event.h>
-#include <MDK/TypeSig.h>
+#include <MDK/TypeID.h>
 
-MDK_TypeSig_create(MDK_Application_StartEvent, 'A', 'S', 'E', 'v');
+MDK_TypeID_create(MDK_Application_StartEvent, 'A', 'S', 'E', 'v');
 
 typedef struct {
   MDK_Event inherited;
-  MDK_TypeSig sig;
+  MDK_TypeID id;
   
   // FIXME: Replace with an MDK_Array when I make it
   int argc;
