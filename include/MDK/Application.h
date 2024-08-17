@@ -1,3 +1,14 @@
 #pragma once
 
+#include <MDK/Application/StartEvent.h>
+#include <MDK/Event.h>
+#include <MDK/EventLoopImpl.h>
+
 int MDK_Application_start(int argc, char** argv);
+int MDK_Application_startWithEventLoopImpl(int argc, char** argv, MDK_EventLoopImpl* eventLoopImpl);
+
+void MDK_Application_sendEvent(MDK_Event* event);
+void MDK_Application_requestQuit();
+
+void MDK_Application_onStart(MDK_Object* target, MDK_Application_StartEvent_Handler handler);
+void MDK_Application_onQuitRequest(MDK_Object* target, MDK_Event_Handler handler);
