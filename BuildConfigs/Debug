@@ -1,5 +1,7 @@
 . BuildConfigs/Release
 
+INSTALL_HEADERS="true"
+
 BIN_CFLAGS="-g -O2 -Wall -Werror -Iinclude -pthread"
 BIN_LDFLAGS="-g -Llib -pthread"
 

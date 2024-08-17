@@ -1,4 +1,6 @@
 . BuildConfigs/Release
 
+INSTALL_HEADERS="true"
+
 BIN_CFLAGS="-O2 -Wall -Werror -Iinclude -pthread"
 LIB_CFLAGS="-O2 -fPIC -Wall -Werror -Iinclude -pthread"

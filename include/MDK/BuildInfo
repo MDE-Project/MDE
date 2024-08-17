@@ -1,10 +1,12 @@
-Install include "
-MDK/Application/StartEvent.h
-MDK/Application.h
-MDK/Event.h
-MDK/GenericSet.h
-MDK/Object.h
-MDK/Set.h
-MDK/Shorthand.h
-MDK/TypeID.h
-"
+if [ $INSTALL_HEADERS = "true" ]; then
+  Install include "
+  MDK/Application/StartEvent.h
+  MDK/Application.h
+  MDK/Event.h
+  MDK/GenericSet.h
+  MDK/Object.h
+  MDK/Set.h
+  MDK/Shorthand.h
+  MDK/TypeID.h
+  "
+fi
