@@ -3,11 +3,11 @@
 #include <MDK/Application.h>
 #include <MDK/Application/StartEvent.h>
 #include <MDK/Event.h>
-#include <MDK/EventLoopImpl.h>
+#include <MDK/EventLoop.h>
 #include <MDK/Object.h>
 #include <MDK/Shorthand.h>
 
-static MDK_EventLoopImpl* eventLoop;
+static MDK_EventLoop* globalEventLoop;
 
 static MDK_Object* startEventTarget = NULL;
 static MDK_Application_StartEvent_Handler startEventHandler = NULL;
@@ -25,22 +25,22 @@ int MDK_Application_start(int argc, char** argv) {
   return 0;
 }
 
-int MDK_Application_startWithEventLoopImpl(int argc, char** argv, MDK_EventLoopImpl* eventLoopImpl) {
-  eventLoop = eventLoopImpl;
-  REF(eventLoop);
+int MDK_Application_startWithEventLoop(int argc, char** argv, MDK_EventLoop* eventLoop) {
+  globalEventLoop = eventLoop;
+  REF(globalEventLoop);
   
-  MDK_EventLoopImpl_prepare(eventLoop, MDK_Application_requestQuit);
+  MDK_EventLoop_prepare(globalEventLoop, MDK_Application_requestQuit);
   
   MDK_Application_StartEvent* startEvent = MDK_Application_StartEvent_create(startEventTarget, startEventHandler, argc, argv);
   MDK_Application_sendEvent(EVT(startEvent));
   
-  MDK_EventLoopImpl_run(eventLoop);
+  MDK_EventLoop_run(globalEventLoop);
   
   return 0;
 }
 
 void MDK_Application_sendEvent(MDK_Event* event) {
-  MDK_EventLoopImpl_sendEvent(eventLoop, event);
+  MDK_EventLoop_sendEvent(globalEventLoop, event);
 }
 
 void MDK_Application_requestQuit() {

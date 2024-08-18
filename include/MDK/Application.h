@@ -2,10 +2,10 @@
 
 #include <MDK/Application/StartEvent.h>
 #include <MDK/Event.h>
-#include <MDK/EventLoopImpl.h>
+#include <MDK/EventLoop.h>
 
 int MDK_Application_start(int argc, char** argv);
-int MDK_Application_startWithEventLoopImpl(int argc, char** argv, MDK_EventLoopImpl* eventLoopImpl);
+int MDK_Application_startWithEventLoop(int argc, char** argv, MDK_EventLoop* eventLoop);
 
 void MDK_Application_sendEvent(MDK_Event* event);
 void MDK_Application_requestQuit();
