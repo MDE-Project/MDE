@@ -4,20 +4,21 @@
 #include <MDK/Object.h>
 #include <MDK/TypeID.h>
 
+typedef struct MDK_EventLoop_struct MDK_EventLoop;
 MDK_TypeID_create(MDK_EventLoop, 'E', 'L', 'I', 'm');
 
-typedef void (*MDK_EventLoop_RunFunc)();
-typedef void (*MDK_EventLoop_SendEventFunc)(MDK_Event* event);
+typedef void (*MDK_EventLoop_RunFunc)(MDK_EventLoop* this);
+typedef void (*MDK_EventLoop_SendEventFunc)(MDK_EventLoop* this, MDK_Event* event);
 typedef void (*MDK_EventLoop_QuitRequestCallback)();
 
-typedef struct {
+struct MDK_EventLoop_struct {
   MDK_Object inherited;
   MDK_TypeID id;
   
   MDK_EventLoop_RunFunc run;
   MDK_EventLoop_SendEventFunc sendEvent;
   MDK_EventLoop_QuitRequestCallback quitRequestCallback;
-} MDK_EventLoop;
+};
 
 MDK_EventLoop* MDK_EventLoop_create(MDK_EventLoop_RunFunc run, MDK_EventLoop_SendEventFunc sendEvent);
 void MDK_EventLoop_init(MDK_EventLoop* this, MDK_EventLoop_RunFunc run, MDK_EventLoop_SendEventFunc sendEvent);
