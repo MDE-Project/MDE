@@ -33,12 +33,16 @@ void MDK_BackgroundTask_init(MDK_BackgroundTask* this, MDK_Object* owner, MDK_Ba
 }
 
 void MDK_BackgroundTask_destroy(MDK_BackgroundTask* this) {
+  MDK_TypeID_ensure(this->id, MDK_BackgroundTask_typeID);
+  
   if (this->running) {
     pthread_cancel(this->thread);
   }
 }
 
 void MDK_BackgroundTask_stop(MDK_BackgroundTask* this) {
+  MDK_TypeID_ensure(this->id, MDK_BackgroundTask_typeID);
+  
   if (this->running) {
     pthread_cancel(this->thread);
     this->running = false;
@@ -46,5 +50,6 @@ void MDK_BackgroundTask_stop(MDK_BackgroundTask* this) {
 }
 
 bool MDK_BackgroundTask_getRunning(MDK_BackgroundTask* this) {
+  MDK_TypeID_ensure(this->id, MDK_BackgroundTask_typeID);
   return this->running;
 }
