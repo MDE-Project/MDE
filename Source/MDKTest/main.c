@@ -116,15 +116,20 @@ void backgroundTaskTestMain(MDK_Object* unused) {
 void backgroundTaskTest() {
   MDK_BackgroundTask* task = MDK_BackgroundTask_create(NULL, backgroundTaskTestMain);
   REF(task);
-  
   sleep(1);
-  
   printf("Task running: %s\n", MDK_BackgroundTask_getRunning(task) ? "true" : "false");
-  
   sleep(2);
-  
   printf("Task running: %s\n", MDK_BackgroundTask_getRunning(task) ? "true" : "false");
   UNREF(task);
+  
+  puts("Early unreference check:");
+  
+  task = MDK_BackgroundTask_create(NULL, backgroundTaskTestMain);
+  REF(task);
+  sleep(1);
+  printf("Task running: %s\n", MDK_BackgroundTask_getRunning(task) ? "true" : "false");
+  UNREF(task);
+  sleep(2);
 }
 
 int main(int argc, char** argv) {
