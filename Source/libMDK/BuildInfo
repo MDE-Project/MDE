@@ -8,6 +8,7 @@ libMDK/Event.c
 libMDK/EventLoop.c
 libMDK/GenericSet.c
 libMDK/Object.c
+libMDK/RingBufferEventLoop.c
 libMDK/Set.c
 libMDK/TypeID.c
 "

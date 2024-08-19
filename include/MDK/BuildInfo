@@ -7,6 +7,7 @@ if [ $INSTALL_HEADERS = "true" ]; then
   MDK/EventLoop.h
   MDK/GenericSet.h
   MDK/Object.h
+  MDK/RingBufferEventLoop.h
   MDK/Set.h
   MDK/Shorthand.h
   MDK/TypeID.h
