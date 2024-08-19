@@ -10,7 +10,7 @@
 void printHelp() {
   fputs("MDK manual test utility\n"
         "Usage: MDKTest <testNum>\n"
-        "1 - Type signature checking\n"
+        "1 - Type ID checking\n"
         "2 - Set and object ref-counting test\n"
         "3 - GenericSet test\n"
         "4 - Inherited event test\n", stdout);
@@ -18,6 +18,10 @@ void printHelp() {
 
 void dummyDestructor(MDK_Object* this) {
   puts("Destructor called");
+}
+
+void typeIDTest() {
+  REF("Milk");
 }
 
 void setRefTest() {
@@ -110,7 +114,7 @@ int main(int argc, char** argv) {
   
   switch (testNum) {
     case 1:
-      REF("Milk");
+      typeIDTest();
     break;
     case 2:
       setRefTest();
