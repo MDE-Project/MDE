@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include <MDK/Application/StartEvent.h>
+#include <MDK/BackgroundTask.h>
 #include <MDK/GenericSet.h>
 #include <MDK/Object.h>
 #include <MDK/Set.h>
@@ -13,7 +15,8 @@ void printHelp() {
         "1 - Type ID checking\n"
         "2 - Set and object ref-counting test\n"
         "3 - GenericSet test\n"
-        "4 - Inherited event test\n", stdout);
+        "4 - Inherited event test\n"
+        "5 - Background task test\n", stdout);
 }
 
 void dummyDestructor(MDK_Object* this) {
@@ -104,6 +107,26 @@ void inheritedEventTest(int argc, char** argv) {
   UNREF(startEvent);
 }
 
+void backgroundTaskTestMain(MDK_Object* unused) {
+  puts("Hello from a thread!");
+  sleep(2);
+  puts("Bye!");
+}
+
+void backgroundTaskTest() {
+  MDK_BackgroundTask* task = MDK_BackgroundTask_create(NULL, backgroundTaskTestMain);
+  REF(task);
+  
+  sleep(1);
+  
+  printf("Task running: %s\n", MDK_BackgroundTask_getRunning(task) ? "true" : "false");
+  
+  sleep(2);
+  
+  printf("Task running: %s\n", MDK_BackgroundTask_getRunning(task) ? "true" : "false");
+  UNREF(task);
+}
+
 int main(int argc, char** argv) {
   if (argc != 2) {
     printHelp();
@@ -124,6 +147,9 @@ int main(int argc, char** argv) {
     break;
     case 4:
       inheritedEventTest(argc, argv);
+    break;
+    case 5:
+      backgroundTaskTest();
     break;
     default:
       printHelp();
