@@ -23,3 +23,5 @@ struct MDK_Event_struct {
 MDK_Event* MDK_Event_create(MDK_Object* source, MDK_Object* target, MDK_Event_Handler handler);
 void MDK_Event_init(MDK_Event* this, MDK_Object* source, MDK_Object* target, MDK_Event_Handler handler);
 void MDK_Event_destroy(MDK_Event* this);
+
+void MDK_Event_deliver(MDK_Event* this);
