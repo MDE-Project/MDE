@@ -29,7 +29,6 @@ void MDK_BackgroundTask_init(MDK_BackgroundTask* this, MDK_Object* owner, MDK_Ba
   atomic_init(&this->running, false);  
   
   pthread_create(&this->thread, NULL, taskStart, this);
-  pthread_detach(this->thread);
 }
 
 void MDK_BackgroundTask_destroy(MDK_BackgroundTask* this) {
@@ -38,6 +37,7 @@ void MDK_BackgroundTask_destroy(MDK_BackgroundTask* this) {
   if (this->running) {
     pthread_cancel(this->thread);
   }
+  pthread_join(this->thread, NULL);
 }
 
 void MDK_BackgroundTask_stop(MDK_BackgroundTask* this) {
@@ -47,6 +47,7 @@ void MDK_BackgroundTask_stop(MDK_BackgroundTask* this) {
     pthread_cancel(this->thread);
     this->running = false;
   }
+  pthread_join(this->thread, NULL);
 }
 
 bool MDK_BackgroundTask_getRunning(MDK_BackgroundTask* this) {
