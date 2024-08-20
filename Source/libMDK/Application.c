@@ -37,6 +37,8 @@ int MDK_Application_startWithEventLoop(int argc, char** argv, MDK_EventLoop* eve
   
   MDK_EventLoop_run(globalEventLoop);
   
+  UNREF(globalEventLoop);
+  
   return 0;
 }
 
