@@ -1,7 +1,9 @@
+#include "MDK/Event.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <MDK/Application.h>
 #include <MDK/Application/StartEvent.h>
 #include <MDK/BackgroundTask.h>
 #include <MDK/GenericSet.h>
@@ -16,7 +18,8 @@ void printHelp() {
         "2 - Set and object ref-counting test\n"
         "3 - GenericSet test\n"
         "4 - Inherited event test\n"
-        "5 - Background task test\n", stdout);
+        "5 - Background task test\n"
+        "6 - Basic application test\n", stdout);
 }
 
 void dummyDestructor(MDK_Object* this) {
@@ -132,6 +135,31 @@ void backgroundTaskTest() {
   sleep(2);
 }
 
+void basicApplicationTestEventHandler(MDK_Object* unused, MDK_Event* event) {
+  puts("Received event from task");
+}
+
+void basicApplicationTestTaskMain(MDK_Object* unused) {
+  for (unsigned i = 0; i < 5; i++) {
+    MDK_Event* testEvent = MDK_Event_create(NULL, NULL, basicApplicationTestEventHandler);
+    puts("Sending event from task");
+    MDK_Application_sendEvent(testEvent);
+    sleep(1);
+  }
+}
+
+void basicApplicationTest(MDK_Object* unused, MDK_Application_StartEvent* event) {
+  puts("Hello from application");
+  
+  MDK_BackgroundTask* task = MDK_BackgroundTask_create(NULL, basicApplicationTestTaskMain);
+  REF(task);
+}
+
+void basicApplicationTestQuit(MDK_Object* unused, MDK_Event* event) {
+  puts("Bye!");
+  exit(0);
+}
+
 int main(int argc, char** argv) {
   if (argc != 2) {
     printHelp();
@@ -156,6 +184,10 @@ int main(int argc, char** argv) {
     case 5:
       backgroundTaskTest();
     break;
+    case 6:
+      MDK_Application_onStart(NULL, basicApplicationTest);
+      MDK_Application_onQuitRequest(NULL, basicApplicationTestQuit);
+      return MDK_Application_start(argc, argv);
     default:
       printHelp();
       return 1;
