@@ -43,9 +43,11 @@ void MDK_Set_push(MDK_Set* this, MDK_Object* object) {
 void MDK_Set_remove(MDK_Set* this, unsigned i) {
   MDK_TypeID_ensure(this->id, MDK_Set_typeID);
   
-  UNREF(this->rawArray[i]);
-  this->rawArray[i] = this->rawArray[this->length-1];
-  this->length--;
+  if (i < this->length) {
+    UNREF(this->rawArray[i]);
+    this->rawArray[i] = this->rawArray[this->length-1];
+    this->length--;
+  }
 }
 
 unsigned MDK_Set_getLength(MDK_Set* this) {

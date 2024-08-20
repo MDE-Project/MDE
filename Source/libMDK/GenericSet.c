@@ -39,8 +39,10 @@ void MDK_GenericSet_push(MDK_GenericSet* this, void* item) {
 void MDK_GenericSet_remove(MDK_GenericSet* this, unsigned i) {
   MDK_TypeID_ensure(this->id, MDK_GenericSet_typeID);
   
-  memcpy(this->rawArray + i*this->itemSize, this->rawArray + (this->length-1)*this->itemSize, this->itemSize);
-  this->length--;
+  if (i < this->length) {
+    memcpy(this->rawArray + i*this->itemSize, this->rawArray + (this->length-1)*this->itemSize, this->itemSize);
+    this->length--;
+  }
 }
 
 unsigned MDK_GenericSet_getLength(MDK_GenericSet* this) {
