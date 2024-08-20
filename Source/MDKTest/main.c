@@ -1,4 +1,3 @@
-#include "MDK/Event.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -6,6 +5,7 @@
 #include <MDK/Application.h>
 #include <MDK/Application/StartEvent.h>
 #include <MDK/BackgroundTask.h>
+#include <MDK/Event.h>
 #include <MDK/GenericSet.h>
 #include <MDK/Object.h>
 #include <MDK/Set.h>
