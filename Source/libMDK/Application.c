@@ -4,6 +4,7 @@
 #include <MDK/Application/StartEvent.h>
 #include <MDK/Event.h>
 #include <MDK/EventLoop.h>
+#include <MDK/EventLoop/StopEvent.h>
 #include <MDK/Object.h>
 #include <MDK/RingBufferEventLoop.h>
 #include <MDK/Shorthand.h>
@@ -14,8 +15,7 @@ static MDK_Object* startEventTarget = NULL;
 static MDK_Application_StartEvent_Handler startEventHandler = NULL;
 
 static void quitRequestEventDefaultHandler(MDK_Object* this, MDK_Event* event) {
-  // FIXME Add some way to have the event loop itself return
-  exit(0);
+  MDK_Application_quit();
 }
 
 static MDK_Object* quitRequestEventTarget = NULL;
@@ -44,6 +44,11 @@ int MDK_Application_startWithEventLoop(int argc, char** argv, MDK_EventLoop* eve
 
 void MDK_Application_sendEvent(MDK_Event* event) {
   MDK_EventLoop_sendEvent(globalEventLoop, event);
+}
+
+void MDK_Application_quit() {
+  MDK_EventLoop_StopEvent* stopEvent = MDK_EventLoop_StopEvent_create();
+  MDK_Application_sendEvent(EVT(stopEvent));
 }
 
 void MDK_Application_requestQuit() {

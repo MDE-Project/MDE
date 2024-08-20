@@ -6,6 +6,7 @@ libMDK/Application.c
 libMDK/BackgroundTask.c
 libMDK/Event.c
 libMDK/EventLoop.c
+libMDK/EventLoop/StopEvent.c
 libMDK/GenericSet.c
 libMDK/Object.c
 libMDK/RingBufferEventLoop.c

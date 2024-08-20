@@ -135,6 +135,8 @@ void backgroundTaskTest() {
   sleep(2);
 }
 
+MDK_BackgroundTask* basicApplicationTestTask;
+
 void basicApplicationTestEventHandler(MDK_Object* unused, MDK_Event* event) {
   puts("Received event from task");
 }
@@ -151,13 +153,14 @@ void basicApplicationTestTaskMain(MDK_Object* unused) {
 void basicApplicationTest(MDK_Object* unused, MDK_Application_StartEvent* event) {
   puts("Hello from application");
   
-  MDK_BackgroundTask* task = MDK_BackgroundTask_create(NULL, basicApplicationTestTaskMain);
-  REF(task);
+  basicApplicationTestTask = MDK_BackgroundTask_create(NULL, basicApplicationTestTaskMain);
+  REF(basicApplicationTestTask);
 }
 
 void basicApplicationTestQuit(MDK_Object* unused, MDK_Event* event) {
   puts("Bye!");
-  exit(0);
+  UNREF(basicApplicationTestTask);
+  MDK_Application_quit();
 }
 
 int main(int argc, char** argv) {

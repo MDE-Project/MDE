@@ -39,6 +39,10 @@ static void run(MDK_EventLoop* this_raw) {
     
     MDK_Event* volatile event = this->ring[this->ringReadOffset];
     
+    if (MDK_Event_getStopEventLoop(event)) {
+      return;
+    }
+    
     MDK_Event_deliver(event);
     
     UNREF(event);
@@ -102,10 +106,12 @@ void MDK_RingBufferEventLoop_destroy(MDK_RingBufferEventLoop* this) {
   pthread_cond_destroy(&this->ringCond);
   
   if (this->signalTask) {
+    // Since this is called when the application is about to quit, it's not gonna be freed gracefully, causing valgrind to think it's a "leak"
     UNREF(this->signalTask);
   }
   
   for (unsigned i = this->ringReadOffset; this->ring[i] != NULL; i = (i+1) % MDK_RingBufferEventLoop_ringSize) {
     UNREF(this->ring[i]);
+    this->ring[i] = NULL;
   }
 }

@@ -22,6 +22,8 @@ void MDK_Event_init(MDK_Event* this, MDK_Object* source, MDK_Object* target, MDK
   }
   
   this->handler = handler;
+  
+  this->stopEventLoop = false;
 }
 
 void MDK_Event_destroy(MDK_Event* this) {
@@ -40,4 +42,9 @@ void MDK_Event_deliver(MDK_Event* this) {
   MDK_TypeID_ensure(this->id, MDK_Event_typeID);
   
   this->handler(this->target, this);
+}
+
+bool MDK_Event_getStopEventLoop(MDK_Event* this) {
+  MDK_TypeID_ensure(this->id, MDK_Event_typeID);
+  return this->stopEventLoop;
 }
