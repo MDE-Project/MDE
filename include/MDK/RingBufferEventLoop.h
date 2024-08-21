@@ -16,8 +16,9 @@ typedef struct {
   MDK_EventLoop inherited;
   MDK_TypeID id;
   
-  pthread_mutex_t ringMutex;
-  pthread_cond_t ringCond;
+  pthread_mutex_t mainThreadMutex;
+  pthread_cond_t eventReceivedCond;
+  
   volatile unsigned ringReadOffset;
   volatile unsigned ringWriteOffset;
   

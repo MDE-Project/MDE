@@ -143,9 +143,13 @@ void basicApplicationTestEventHandler(MDK_Object* unused, MDK_Event* event) {
 
 void basicApplicationTestTaskMain(MDK_Object* unused) {
   for (unsigned i = 0; i < 5; i++) {
-    MDK_Event* testEvent = MDK_Event_create(NULL, NULL, basicApplicationTestEventHandler);
     puts("Sending event from task");
-    MDK_Application_sendEvent(testEvent);
+    
+    MDK_Application_pause();
+      MDK_Event* testEvent = MDK_Event_create(NULL, NULL, basicApplicationTestEventHandler);
+      MDK_Application_sendEvent(testEvent);
+    MDK_Application_resume();
+    
     sleep(1);
   }
 }

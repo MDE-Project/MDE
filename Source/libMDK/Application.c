@@ -30,8 +30,6 @@ int MDK_Application_startWithEventLoop(int argc, char** argv, MDK_EventLoop* eve
   globalEventLoop = eventLoop;
   REF(globalEventLoop);
   
-  MDK_EventLoop_setQuitRequestCallback(globalEventLoop, MDK_Application_requestQuit);
-  
   MDK_Application_StartEvent* startEvent = MDK_Application_StartEvent_create(startEventTarget, startEventHandler, argc, argv);
   MDK_Application_sendEvent(EVT(startEvent));
   
@@ -40,6 +38,14 @@ int MDK_Application_startWithEventLoop(int argc, char** argv, MDK_EventLoop* eve
   UNREF(globalEventLoop);
   
   return 0;
+}
+
+void MDK_Application_pause() {
+  MDK_EventLoop_pause(globalEventLoop);
+}
+
+void MDK_Application_resume() {
+  MDK_EventLoop_resume(globalEventLoop);
 }
 
 void MDK_Application_sendEvent(MDK_Event* event) {

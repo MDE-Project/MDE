@@ -7,6 +7,8 @@
 int MDK_Application_start(int argc, char** argv);
 int MDK_Application_startWithEventLoop(int argc, char** argv, MDK_EventLoop* eventLoop);
 
+void MDK_Application_pause();
+void MDK_Application_resume();
 void MDK_Application_sendEvent(MDK_Event* event);
 void MDK_Application_quit();
 void MDK_Application_requestQuit();
