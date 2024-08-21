@@ -1,9 +1,16 @@
 #include <pthread.h>
 #include <stdatomic.h>
 
+#include <MDK/Application.h>
 #include <MDK/BackgroundTask.h>
+#include <MDK/Event.h>
 #include <MDK/Object.h>
 #include <MDK/Shorthand.h>
+
+static void joinThread(MDK_Object* this_raw, MDK_Event* event) {
+  MDK_BackgroundTask* this = (MDK_BackgroundTask*)this_raw;
+  pthread_join(this->thread, NULL);
+}
 
 static void* taskStart(void* this_raw) {
   MDK_BackgroundTask* this = this_raw;
@@ -13,6 +20,12 @@ static void* taskStart(void* this_raw) {
   this->main(this->owner);
   
   this->running = false;
+  
+  MDK_Application_pause();
+    MDK_Event* event = MDK_Event_create(NULL, OBJ(this), joinThread);
+    MDK_Application_sendEvent(event);
+  MDK_Application_resume();
+  
   return NULL;
 }
 
@@ -36,8 +49,8 @@ void MDK_BackgroundTask_destroy(MDK_BackgroundTask* this) {
   
   if (this->running) {
     pthread_cancel(this->thread);
+    pthread_join(this->thread, NULL);
   }
-  pthread_join(this->thread, NULL);
 }
 
 void MDK_BackgroundTask_stop(MDK_BackgroundTask* this) {
@@ -45,9 +58,9 @@ void MDK_BackgroundTask_stop(MDK_BackgroundTask* this) {
   
   if (this->running) {
     pthread_cancel(this->thread);
+    pthread_join(this->thread, NULL);
     this->running = false;
   }
-  pthread_join(this->thread, NULL);
 }
 
 bool MDK_BackgroundTask_getRunning(MDK_BackgroundTask* this) {
