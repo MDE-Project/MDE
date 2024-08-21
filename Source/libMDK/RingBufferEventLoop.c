@@ -8,6 +8,7 @@
 #include <MDK/BackgroundTask.h>
 #include <MDK/Event.h>
 #include <MDK/EventLoop.h>
+#include <MDK/EventLoop/StopEvent.h>
 #include <MDK/Object.h>
 #include <MDK/RingBufferEventLoop.h>
 #include <MDK/Shorthand.h>
@@ -28,7 +29,7 @@ static void signalTaskMain(MDK_Object* this_raw) {
   }
 }
 
-static void run(MDK_EventLoop* this_raw) {
+static int run(MDK_EventLoop* this_raw) {
   MDK_RingBufferEventLoop* this = (MDK_RingBufferEventLoop*)this_raw;
   MDK_TypeID_ensure(this->id, MDK_RingBufferEventLoop_typeID);
   
@@ -46,7 +47,7 @@ static void run(MDK_EventLoop* this_raw) {
     MDK_Event* volatile event = this->ring[this->ringReadOffset];
     
     if (MDK_Event_getStopEventLoop(event)) {
-      return;
+      return MDK_EventLoop_StopEvent_getExitCode((MDK_EventLoop_StopEvent*)event);
     }
     
     MDK_Event_deliver(event);

@@ -164,7 +164,7 @@ void basicApplicationTest(MDK_Object* unused, MDK_Application_StartEvent* event)
 void basicApplicationTestQuit(MDK_Object* unused, MDK_Event* event) {
   puts("Bye!");
   UNREF(basicApplicationTestTask);
-  MDK_Application_quit();
+  MDK_Application_quit(0);
 }
 
 int main(int argc, char** argv) {

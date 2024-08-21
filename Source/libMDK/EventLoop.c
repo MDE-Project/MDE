@@ -20,9 +20,9 @@ void MDK_EventLoop_destroy(MDK_EventLoop* this) {
   return;
 }
 
-void MDK_EventLoop_run(MDK_EventLoop* this) {
+int MDK_EventLoop_run(MDK_EventLoop* this) {
   MDK_TypeID_ensure(this->id, MDK_EventLoop_typeID);
-  this->run(this);
+  return this->run(this);
 }
 
 void MDK_EventLoop_pause(MDK_EventLoop* this) {
