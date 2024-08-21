@@ -8,7 +8,7 @@
 #include <MDK/Object.h>
 #include <MDK/TypeID.h>
 
-#define MDK_RingBufferEventLoop_ringSize (8192)
+#define MDK_RingBufferEventLoop_ringSize (256)
 
 MDK_TypeID_create(MDK_RingBufferEventLoop, 'R', 'B', 'E', 'L');
 
