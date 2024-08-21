@@ -65,7 +65,6 @@ static void pause(MDK_EventLoop* this_raw) {
   MDK_TypeID_ensure(this->id, MDK_RingBufferEventLoop_typeID);
   
   if (!isMainThread) {
-    pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
     pthread_mutex_lock(&this->mainThreadMutex);
   }
 }
@@ -76,7 +75,6 @@ static void resume(MDK_EventLoop* this_raw) {
   
   if (!isMainThread) {
     pthread_mutex_unlock(&this->mainThreadMutex);
-    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
   }
 }
 
