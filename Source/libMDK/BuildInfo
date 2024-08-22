@@ -11,6 +11,7 @@ libMDK/GenericSet.c
 libMDK/Object.c
 libMDK/RingBufferEventLoop.c
 libMDK/Set.c
+libMDK/Timer.c
 libMDK/TypeID.c
 "
 
