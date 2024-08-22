@@ -10,6 +10,7 @@
 #include <MDK/Object.h>
 #include <MDK/Set.h>
 #include <MDK/Shorthand.h>
+#include <MDK/Timer.h>
 
 void printHelp() {
   fputs("MDK manual test utility\n"
@@ -19,7 +20,8 @@ void printHelp() {
         "3 - GenericSet test\n"
         "4 - Inherited event test\n"
         "5 - Background task test\n"
-        "6 - Basic application test\n", stdout);
+        "6 - Basic application test\n"
+        "7 - Timer test\n", stdout);
 }
 
 void dummyDestructor(MDK_Object* this) {
@@ -167,6 +169,36 @@ void basicApplicationTestQuit(MDK_Object* unused, MDK_Event* event) {
   MDK_Application_quit(0);
 }
 
+MDK_Timer* timerTestOneShot;
+MDK_Timer* timerTestInterval;
+
+void timerTestOneShotHandler(MDK_Object* unused, MDK_Event* event) {
+  puts("One shot timer event");
+}
+
+void timerTestIntervalHandler(MDK_Object* unused, MDK_Event* event) {
+  puts("Interval timer event");
+}
+
+void timerTest(MDK_Object* unused, MDK_Application_StartEvent* event) {
+  timerTestOneShot = MDK_Timer_create(MDK_Timer_Type_oneShot, 2000000);
+  REF(timerTestOneShot);
+  MDK_Timer_onTrigger(timerTestOneShot, NULL, timerTestOneShotHandler);
+  MDK_Timer_start(timerTestOneShot);
+  
+  timerTestInterval = MDK_Timer_create(MDK_Timer_Type_interval, 1000000);
+  REF(timerTestInterval);
+  MDK_Timer_onTrigger(timerTestInterval, NULL, timerTestIntervalHandler);
+  MDK_Timer_start(timerTestInterval);
+}
+
+void timerTestQuit(MDK_Object* unused, MDK_Event* event) {
+  puts("Bye!");
+  UNREF(timerTestOneShot);
+  UNREF(timerTestInterval);
+  MDK_Application_quit(0);
+}
+
 int main(int argc, char** argv) {
   if (argc != 2) {
     printHelp();
@@ -194,6 +226,10 @@ int main(int argc, char** argv) {
     case 6:
       MDK_Application_onStart(NULL, basicApplicationTest);
       MDK_Application_onQuitRequest(NULL, basicApplicationTestQuit);
+      return MDK_Application_start(argc, argv);
+    case 7:
+      MDK_Application_onStart(NULL, timerTest);
+      MDK_Application_onQuitRequest(NULL, timerTestQuit);
       return MDK_Application_start(argc, argv);
     default:
       printHelp();
