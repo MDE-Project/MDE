@@ -1,7 +1,7 @@
 if [ $INSTALL_HEADERS = "true" ]; then
   Install include "
-  MDK/Application/StartEvent.h
   MDK/Application.h
+  MDK/Application/StartEvent.h
   MDK/BackgroundTask.h
   MDK/Event.h
   MDK/EventLoop.h

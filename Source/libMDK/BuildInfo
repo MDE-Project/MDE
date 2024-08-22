@@ -1,8 +1,8 @@
 LibraryBuildRule libMDK.so "$LIBMDK_CFLAGS" "$LIBMDK_LDFLAGS"
 
 Build lib libMDK.so "
-libMDK/Application/StartEvent.c
 libMDK/Application.c
+libMDK/Application/StartEvent.c
 libMDK/BackgroundTask.c
 libMDK/Event.c
 libMDK/EventLoop.c
