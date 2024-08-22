@@ -19,9 +19,8 @@ void printHelp() {
         "2 - Set and object ref-counting test\n"
         "3 - GenericSet test\n"
         "4 - Inherited event test\n"
-        "5 - Background task test\n"
-        "6 - Basic application test\n"
-        "7 - Timer test\n", stdout);
+        "5 - Basic application test\n"
+        "6 - Timer test\n", stdout);
 }
 
 void dummyDestructor(MDK_Object* this) {
@@ -112,31 +111,6 @@ void inheritedEventTest(int argc, char** argv) {
   UNREF(startEvent);
 }
 
-void backgroundTaskTestMain(MDK_Object* unused) {
-  puts("Hello from a thread!");
-  sleep(2);
-  puts("Bye!");
-}
-
-void backgroundTaskTest() {
-  MDK_BackgroundTask* task = MDK_BackgroundTask_create(NULL, backgroundTaskTestMain);
-  REF(task);
-  sleep(1);
-  printf("Task running: %s\n", MDK_BackgroundTask_getRunning(task) ? "true" : "false");
-  sleep(2);
-  printf("Task running: %s\n", MDK_BackgroundTask_getRunning(task) ? "true" : "false");
-  UNREF(task);
-  
-  puts("Early unreference check:");
-  
-  task = MDK_BackgroundTask_create(NULL, backgroundTaskTestMain);
-  REF(task);
-  sleep(1);
-  printf("Task running: %s\n", MDK_BackgroundTask_getRunning(task) ? "true" : "false");
-  UNREF(task);
-  sleep(2);
-}
-
 MDK_BackgroundTask* basicApplicationTestTask;
 
 void basicApplicationTestEventHandler(MDK_Object* unused, MDK_Event* event) {
@@ -221,13 +195,10 @@ int main(int argc, char** argv) {
       inheritedEventTest(argc, argv);
     break;
     case 5:
-      backgroundTaskTest();
-    break;
-    case 6:
       MDK_Application_onStart(NULL, basicApplicationTest);
       MDK_Application_onQuitRequest(NULL, basicApplicationTestQuit);
       return MDK_Application_start(argc, argv);
-    case 7:
+    case 6:
       MDK_Application_onStart(NULL, timerTest);
       MDK_Application_onQuitRequest(NULL, timerTestQuit);
       return MDK_Application_start(argc, argv);
