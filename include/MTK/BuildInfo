@@ -1,0 +1,6 @@
+if [ $INSTALL_HEADERS = "true" ]; then
+  Install include "
+  MTK/WindowManager.h
+  MTK/WindowManager/Wayland.h
+  "
+fi

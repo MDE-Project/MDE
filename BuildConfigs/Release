@@ -13,5 +13,8 @@ LIB_LDFLAGS="-s -shared -Llib -pthread"
 LIBMDK_CFLAGS=""
 LIBMDK_LDFLAGS=""
 
+LIBMTK_CFLAGS=""
+LIBMTK_LDFLAGS="-lMDK -lwayland-client"
+
 MDKTEST_CFLAGS=""
 MDKTEST_LDFLAGS="-lMDK"
