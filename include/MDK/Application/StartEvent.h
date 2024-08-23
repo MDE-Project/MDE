@@ -9,7 +9,7 @@ typedef struct {
   MDK_Event inherited;
   MDK_TypeID id;
   
-  // FIXME: Replace with an MDK_Array when I make it
+  // FIXME: Use MDK_Array with MDK_String at some point
   int argc;
   char** argv;
 } MDK_Application_StartEvent;
