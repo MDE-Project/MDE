@@ -6,6 +6,7 @@
 #include <MDK/Application/StartEvent.h>
 #include <MDK/BackgroundTask.h>
 #include <MDK/Event.h>
+#include <MDK/GenericArray.h>
 #include <MDK/GenericSet.h>
 #include <MDK/Object.h>
 #include <MDK/Set.h>
@@ -20,7 +21,8 @@ void printHelp() {
         "3 - GenericSet test\n"
         "4 - Inherited event test\n"
         "5 - Basic application test\n"
-        "6 - Timer test\n", stdout);
+        "6 - Timer test\n"
+        "7 - GenericArray test\n", stdout);
 }
 
 void dummyDestructor(MDK_Object* this) {
@@ -173,6 +175,54 @@ void timerTestQuit(MDK_Object* unused, MDK_Event* event) {
   MDK_Application_quit(0);
 }
 
+void genericArrayTestPrint(MDK_GenericArray* array) {
+  unsigned* rawArray = MDK_GenericArray_getRawArray(array);
+  unsigned length = MDK_GenericArray_getLength(array);
+  
+  for (unsigned i = 0; i < length; i++) {
+    printf("%u\n", rawArray[i]);
+  }
+}
+
+void genericArrayTest() {
+  MDK_GenericArray* array = MDK_GenericArray_create(sizeof(unsigned), 1);
+  REF(array);
+  unsigned* rawArray = MDK_GenericArray_getRawArray(array);
+  
+  unsigned item;
+  
+  item = 1;
+  MDK_GenericArray_push(array, &item);
+  item = 2;
+  MDK_GenericArray_push(array, &item);
+  item = 3;
+  MDK_GenericArray_push(array, &item);
+  genericArrayTestPrint(array);
+  
+  puts("---");
+  
+  rawArray[1] = 4;
+  genericArrayTestPrint(array);
+  
+  puts("---");
+  
+  item = 2;
+  MDK_GenericArray_push(array, &item);
+  genericArrayTestPrint(array);
+  
+  puts("---");
+  
+  MDK_GenericArray_remove(array, 0);
+  genericArrayTestPrint(array);
+  
+  puts("---");
+  
+  MDK_GenericArray_remove(array, 1);
+  genericArrayTestPrint(array);
+  
+  UNREF(array);
+}
+
 int main(int argc, char** argv) {
   if (argc != 2) {
     printHelp();
@@ -202,6 +252,9 @@ int main(int argc, char** argv) {
       MDK_Application_onStart(NULL, timerTest);
       MDK_Application_onQuitRequest(NULL, timerTestQuit);
       return MDK_Application_start(argc, argv);
+    case 7:
+      genericArrayTest();
+      break;
     default:
       printHelp();
       return 1;
