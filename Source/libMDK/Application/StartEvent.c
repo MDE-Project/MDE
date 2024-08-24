@@ -17,6 +17,6 @@ void MDK_Application_StartEvent_init(MDK_Application_StartEvent* this, MDK_Objec
 }
 
 void MDK_Application_StartEvent_destroy(MDK_Application_StartEvent* this) {
-  MDK_TypeID_ensure(this->id, MDK_Application_StartEvent_typeID);
+  ENSURE(MDK_Application_StartEvent);
   MDK_Event_destroy(&this->inherited);
 }

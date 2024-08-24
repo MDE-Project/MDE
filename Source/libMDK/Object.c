@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include <MDK/Object.h>
+#include <MDK/Shorthand.h>
 
 MDK_Object* MDK_Object_create(MDK_Object_Destructor destructor, size_t size) {
   MDK_Object* this = malloc(size == 0 ? sizeof(MDK_Object) : size);
@@ -18,12 +19,12 @@ MDK_Object* MDK_Object_create(MDK_Object_Destructor destructor, size_t size) {
 }
 
 void MDK_Object_ref(MDK_Object* this) {
-  MDK_TypeID_ensure(this->id, MDK_Object_typeID);
+  ENSURE(MDK_Object);
   this->refs++;
 }
 
 void MDK_Object_unref(MDK_Object* this) {
-  MDK_TypeID_ensure(this->id, MDK_Object_typeID);
+  ENSURE(MDK_Object);
   
   if (this->refs == 0) {
     fputs("Attempted to unref never ref'd object? Freeing anyway.\n", stderr);

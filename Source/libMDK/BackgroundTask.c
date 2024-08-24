@@ -8,7 +8,7 @@
 #include <MDK/Shorthand.h>
 
 static void joinThread(MDK_Object* this_raw, MDK_Event* event) {
-  MDK_BackgroundTask* this = (MDK_BackgroundTask*)this_raw;
+  CAST_THIS(MDK_BackgroundTask);
   pthread_join(this->thread, NULL);
 }
 
@@ -45,7 +45,7 @@ void MDK_BackgroundTask_init(MDK_BackgroundTask* this, MDK_Object* owner, MDK_Ba
 }
 
 void MDK_BackgroundTask_destroy(MDK_BackgroundTask* this) {
-  MDK_TypeID_ensure(this->id, MDK_BackgroundTask_typeID);
+  ENSURE(MDK_BackgroundTask);
   
   if (this->running) {
     pthread_cancel(this->thread);
@@ -54,7 +54,7 @@ void MDK_BackgroundTask_destroy(MDK_BackgroundTask* this) {
 }
 
 void MDK_BackgroundTask_stop(MDK_BackgroundTask* this) {
-  MDK_TypeID_ensure(this->id, MDK_BackgroundTask_typeID);
+  ENSURE(MDK_BackgroundTask);
   
   if (this->running) {
     pthread_cancel(this->thread);
@@ -64,6 +64,6 @@ void MDK_BackgroundTask_stop(MDK_BackgroundTask* this) {
 }
 
 bool MDK_BackgroundTask_getRunning(MDK_BackgroundTask* this) {
-  MDK_TypeID_ensure(this->id, MDK_BackgroundTask_typeID);
+  ENSURE(MDK_BackgroundTask);
   return this->running;
 }

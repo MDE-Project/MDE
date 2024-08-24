@@ -18,7 +18,7 @@ void MDK_Set_init(MDK_Set* this, unsigned storageSize) {
 }
 
 void MDK_Set_destroy(MDK_Set* this) {
-  MDK_TypeID_ensure(this->id, MDK_Set_typeID);
+  ENSURE(MDK_Set);
   
   for (unsigned i = 0; i < this->length; i++) {
     UNREF(this->rawArray[i]);
@@ -28,7 +28,7 @@ void MDK_Set_destroy(MDK_Set* this) {
 }
 
 void MDK_Set_push(MDK_Set* this, MDK_Object* object) {
-  MDK_TypeID_ensure(this->id, MDK_Set_typeID);
+  ENSURE(MDK_Set);
   
   if (this->length >= this->storageSize) {
     this->storageSize *= 2;
@@ -41,7 +41,7 @@ void MDK_Set_push(MDK_Set* this, MDK_Object* object) {
 }
 
 void MDK_Set_remove(MDK_Set* this, unsigned i) {
-  MDK_TypeID_ensure(this->id, MDK_Set_typeID);
+  ENSURE(MDK_Set);
   
   if (i < this->length) {
     UNREF(this->rawArray[i]);
@@ -51,11 +51,11 @@ void MDK_Set_remove(MDK_Set* this, unsigned i) {
 }
 
 unsigned MDK_Set_getLength(MDK_Set* this) {
-  MDK_TypeID_ensure(this->id, MDK_Set_typeID);
+  ENSURE(MDK_Set);
   return this->length;
 }
 
 MDK_Object** MDK_Set_getRawArray(MDK_Set* this) {
-  MDK_TypeID_ensure(this->id, MDK_Set_typeID);
+  ENSURE(MDK_Set);
   return this->rawArray;
 }

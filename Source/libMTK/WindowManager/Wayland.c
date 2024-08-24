@@ -15,6 +15,6 @@ void MTK_WindowManager_Wayland_init(MTK_WindowManager_Wayland* this) {
 }
 
 void MTK_WindowManager_Wayland_destroy(MTK_WindowManager_Wayland* this) {
-  MDK_TypeID_ensure(this->id, MTK_WindowManager_Wayland_typeID);
+  ENSURE(MTK_WindowManager_Wayland);
   MTK_WindowManager_destroy(&this->inherited);
 }

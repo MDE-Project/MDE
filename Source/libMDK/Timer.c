@@ -16,7 +16,7 @@ static uint64_t getMonotonicTime() {
 }
 
 static void timerOneShotMain(MDK_Object* this_raw) {
-  MDK_Timer* this = (MDK_Timer*)this_raw;
+  CAST_THIS(MDK_Timer);
   
   uint64_t currentMonotonicTime = getMonotonicTime();
   if (currentMonotonicTime < this->nextTrigger) {
@@ -30,7 +30,7 @@ static void timerOneShotMain(MDK_Object* this_raw) {
 }
 
 static void timerIntervalMain(MDK_Object* this_raw) {
-  MDK_Timer* this = (MDK_Timer*)this_raw;
+  CAST_THIS(MDK_Timer);
   
   while (true) {
     if (getMonotonicTime() >= this->nextTrigger) {
@@ -65,7 +65,7 @@ void MDK_Timer_init(MDK_Timer* this, MDK_Timer_Type type, uint64_t microseconds)
 }
 
 void MDK_Timer_destroy(MDK_Timer* this) {
-  MDK_TypeID_ensure(this->id, MDK_Timer_typeID);
+  ENSURE(MDK_Timer);
   
   if (this->timerTask) {
     UNREF(this->timerTask);
@@ -73,7 +73,7 @@ void MDK_Timer_destroy(MDK_Timer* this) {
 }
 
 void MDK_Timer_start(MDK_Timer* this) {
-  MDK_TypeID_ensure(this->id, MDK_Timer_typeID);
+  ENSURE(MDK_Timer);
   
   if (!MDK_Timer_getIsRunning(this)) {
     if (this->timerTask) {
@@ -93,7 +93,7 @@ void MDK_Timer_start(MDK_Timer* this) {
 }
 
 void MDK_Timer_stop(MDK_Timer* this) {
-  MDK_TypeID_ensure(this->id, MDK_Timer_typeID);
+  ENSURE(MDK_Timer);
   
   if (this->timerTask) {
     UNREF(this->timerTask);
@@ -102,7 +102,7 @@ void MDK_Timer_stop(MDK_Timer* this) {
 }
 
 bool MDK_Timer_getIsRunning(MDK_Timer* this) {
-  MDK_TypeID_ensure(this->id, MDK_Timer_typeID);
+  ENSURE(MDK_Timer);
   
   if (!this->timerTask) {
     return false;
@@ -112,7 +112,7 @@ bool MDK_Timer_getIsRunning(MDK_Timer* this) {
 }
 
 void MDK_Timer_onTrigger(MDK_Timer* this, MDK_Object* target, MDK_Event_Handler handler) {
-  MDK_TypeID_ensure(this->id, MDK_Timer_typeID);
+  ENSURE(MDK_Timer);
   
   if (!MDK_Timer_getIsRunning(this)) {
     this->triggerEventTarget = target;

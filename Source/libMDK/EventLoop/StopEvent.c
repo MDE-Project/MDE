@@ -18,11 +18,11 @@ void MDK_EventLoop_StopEvent_init(MDK_EventLoop_StopEvent* this, int exitCode) {
 }
 
 void MDK_EventLoop_StopEvent_destroy(MDK_EventLoop_StopEvent* this) {
-  MDK_TypeID_ensure(this->id, MDK_EventLoop_StopEvent_typeID);
+  ENSURE(MDK_EventLoop_StopEvent);
   MDK_Event_destroy(&this->inherited);
 }
 
 int MDK_EventLoop_StopEvent_getExitCode(MDK_EventLoop_StopEvent* this) {
-  MDK_TypeID_ensure(this->id, MDK_EventLoop_StopEvent_typeID);
+  ENSURE(MDK_EventLoop_StopEvent);
   return this->exitCode;
 }

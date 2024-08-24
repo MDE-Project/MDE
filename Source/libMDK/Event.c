@@ -27,7 +27,7 @@ void MDK_Event_init(MDK_Event* this, MDK_Object* source, MDK_Object* target, MDK
 }
 
 void MDK_Event_destroy(MDK_Event* this) {
-  MDK_TypeID_ensure(this->id, MDK_Event_typeID);
+  ENSURE(MDK_Event);
   
   if (this->source) {
     UNREF(this->source);
@@ -39,12 +39,12 @@ void MDK_Event_destroy(MDK_Event* this) {
 }
 
 void MDK_Event_deliver(MDK_Event* this) {
-  MDK_TypeID_ensure(this->id, MDK_Event_typeID);
+  ENSURE(MDK_Event);
   
   this->handler(this->target, this);
 }
 
 bool MDK_Event_getStopEventLoop(MDK_Event* this) {
-  MDK_TypeID_ensure(this->id, MDK_Event_typeID);
+  ENSURE(MDK_Event);
   return this->stopEventLoop;
 }

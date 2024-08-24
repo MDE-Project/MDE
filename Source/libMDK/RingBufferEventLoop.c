@@ -16,7 +16,7 @@
 static _Thread_local bool isMainThread = false;
 
 static void signalTaskMain(MDK_Object* this_raw) {
-  MDK_RingBufferEventLoop* this = (MDK_RingBufferEventLoop*)this_raw;
+  CAST_THIS(MDK_RingBufferEventLoop);
   
   int signalReceived;
   
@@ -30,8 +30,8 @@ static void signalTaskMain(MDK_Object* this_raw) {
 }
 
 static int run(MDK_EventLoop* this_raw) {
-  MDK_RingBufferEventLoop* this = (MDK_RingBufferEventLoop*)this_raw;
-  MDK_TypeID_ensure(this->id, MDK_RingBufferEventLoop_typeID);
+  CAST_THIS(MDK_RingBufferEventLoop);
+  ENSURE(MDK_RingBufferEventLoop);
   
   pthread_sigmask(SIG_BLOCK, &this->signalSet, NULL);
   this->signalTask = MDK_BackgroundTask_create(OBJ(this), signalTaskMain);
@@ -61,8 +61,8 @@ static int run(MDK_EventLoop* this_raw) {
 }
 
 static void pause(MDK_EventLoop* this_raw) {
-  MDK_RingBufferEventLoop* this = (MDK_RingBufferEventLoop*)this_raw;
-  MDK_TypeID_ensure(this->id, MDK_RingBufferEventLoop_typeID);
+  CAST_THIS(MDK_RingBufferEventLoop);
+  ENSURE(MDK_RingBufferEventLoop);
   
   if (!isMainThread) {
     pthread_mutex_lock(&this->mainThreadMutex);
@@ -70,8 +70,8 @@ static void pause(MDK_EventLoop* this_raw) {
 }
 
 static void resume(MDK_EventLoop* this_raw) {
-  MDK_RingBufferEventLoop* this = (MDK_RingBufferEventLoop*)this_raw;
-  MDK_TypeID_ensure(this->id, MDK_RingBufferEventLoop_typeID);
+  CAST_THIS(MDK_RingBufferEventLoop);
+  ENSURE(MDK_RingBufferEventLoop);
   
   if (!isMainThread) {
     pthread_mutex_unlock(&this->mainThreadMutex);
@@ -79,8 +79,8 @@ static void resume(MDK_EventLoop* this_raw) {
 }
 
 static void sendEvent(MDK_EventLoop* this_raw, MDK_Event* event) {
-  MDK_RingBufferEventLoop* this = (MDK_RingBufferEventLoop*)this_raw;
-  MDK_TypeID_ensure(this->id, MDK_RingBufferEventLoop_typeID);
+  CAST_THIS(MDK_RingBufferEventLoop);
+  ENSURE(MDK_RingBufferEventLoop);
   
   this->ring[this->ringWriteOffset] = event;
   REF(event);
@@ -124,7 +124,7 @@ void MDK_RingBufferEventLoop_init(MDK_RingBufferEventLoop* this) {
 }
 
 void MDK_RingBufferEventLoop_destroy(MDK_RingBufferEventLoop* this) {
-  MDK_TypeID_ensure(this->id, MDK_RingBufferEventLoop_typeID);
+  ENSURE(MDK_RingBufferEventLoop);
   
   MDK_EventLoop_destroy(&this->inherited);
   
