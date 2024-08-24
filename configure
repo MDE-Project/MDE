@@ -128,9 +128,9 @@ EOF
       echo "build $object: compile_wayland_code $code" >> build.ninja
       echo "build $header: generate_wayland_header $xml" >> build.ninja
     fi
-    
-    echo "build wayland_headers: phony$headers" >> build.ninja
   done
+  
+  echo "build wayland_headers: phony$headers" >> build.ninja
 }
 
 . "BuildConfigs/$build_config"
