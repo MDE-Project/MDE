@@ -1,7 +1,9 @@
 CC="gcc"
 INSTALL="cp"
-PREFIX="/usr/local"
+WAYLAND_SCANNER="wayland-scanner"
+WAYLAND_PROTOCOLS_DIR="/usr/share/wayland-protocols"
 
+PREFIX="/usr/local"
 INSTALL_HEADERS="false"
 
 BIN_CFLAGS="-O2 -Iinclude -pthread"
@@ -13,7 +15,7 @@ LIB_LDFLAGS="-s -shared -Llib -pthread"
 LIBMDK_CFLAGS=""
 LIBMDK_LDFLAGS=""
 
-LIBMTK_CFLAGS=""
+LIBMTK_CFLAGS="-IBuild/include"
 LIBMTK_LDFLAGS="-lMDK -lwayland-client"
 
 MDKTEST_CFLAGS=""

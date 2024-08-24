@@ -1,3 +1,7 @@
+GenerateWaylandBindings "
+stable/xdg-shell/xdg-shell
+"
+
 IncludeBuildInfo Source/libMDK
 IncludeBuildInfo Source/MDKTest
 
