@@ -66,19 +66,14 @@ void MDK_Timer_init(MDK_Timer* this, MDK_Timer_Type type, uint64_t microseconds)
 
 void MDK_Timer_destroy(MDK_Timer* this) {
   ENSURE(MDK_Timer);
-  
-  if (this->timerTask) {
-    UNREF(this->timerTask);
-  }
+  UNREF_NULL(this->timerTask);
 }
 
 void MDK_Timer_start(MDK_Timer* this) {
   ENSURE(MDK_Timer);
   
   if (!MDK_Timer_getIsRunning(this)) {
-    if (this->timerTask) {
-      UNREF(this->timerTask);
-    }
+    UNREF_NULL(this->timerTask);
     
     this->nextTrigger = getMonotonicTime() + this->interval;
     

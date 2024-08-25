@@ -10,32 +10,19 @@ MDK_Event* MDK_Event_create(MDK_Object* source, MDK_Object* target, MDK_Event_Ha
 
 void MDK_Event_init(MDK_Event* this, MDK_Object* source, MDK_Object* target, MDK_Event_Handler handler) {
   this->id = MDK_Event_typeID;
-  
   this->source = source;
-  if (source) {
-    REF(source);
-  }
-  
+  REF_NULL(source);
   this->target = target;
-  if (target) {
-    REF(target);
-  }
-  
+  REF_NULL(target);
   this->handler = handler;
-  
   this->stopEventLoop = false;
 }
 
 void MDK_Event_destroy(MDK_Event* this) {
   ENSURE(MDK_Event);
   
-  if (this->source) {
-    UNREF(this->source);
-  }
-  
-  if (this->target) {
-    UNREF(this->target);
-  }
+  UNREF_NULL(this->source);
+  UNREF_NULL(this->target);
 }
 
 void MDK_Event_deliver(MDK_Event* this) {

@@ -35,14 +35,8 @@ int MDK_Application_startWithEventLoop(int argc, char** argv, MDK_EventLoop* eve
   
   int exitCode = MDK_EventLoop_run(globalEventLoop);
   
-  if (startEventTarget) {
-    UNREF(startEventTarget);
-  }
-  
-  if (quitRequestEventTarget) {
-    UNREF(quitRequestEventTarget);
-  }
-  
+  UNREF_NULL(startEventTarget);
+  UNREF_NULL(quitRequestEventTarget);
   UNREF(globalEventLoop);
   
   return exitCode;
@@ -71,27 +65,19 @@ void MDK_Application_requestQuit() {
 }
 
 void MDK_Application_onStart(MDK_Object* target, MDK_Application_StartEvent_Handler handler) {
-  if (startEventTarget) {
-    UNREF(startEventTarget);
-  }
+  UNREF_NULL(startEventTarget);
   
   startEventTarget = target;
   startEventHandler = handler;
   
-  if (target) {
-    REF(target);
-  }
+  REF_NULL(target);
 }
 
 void MDK_Application_onQuitRequest(MDK_Object* target, MDK_Event_Handler handler) {
-  if (quitRequestEventTarget) {
-    UNREF(quitRequestEventTarget);
-  }
+  UNREF_NULL(quitRequestEventTarget);
   
   quitRequestEventTarget = target;
   quitRequestEventHandler = handler;
   
-  if (target) {
-    REF(target);
-  }
+  REF_NULL(target);
 }

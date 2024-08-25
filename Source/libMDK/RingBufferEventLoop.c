@@ -131,9 +131,7 @@ void MDK_RingBufferEventLoop_destroy(MDK_RingBufferEventLoop* this) {
   pthread_mutex_destroy(&this->mainThreadMutex);
   pthread_cond_destroy(&this->eventReceivedCond);
   
-  if (this->signalTask) {
-    UNREF(this->signalTask);
-  }
+  UNREF_NULL(this->signalTask);
   
   for (unsigned i = this->ringReadOffset; this->ring[i] != NULL; i = (i+1) % MDK_RingBufferEventLoop_ringSize) {
     UNREF(this->ring[i]);

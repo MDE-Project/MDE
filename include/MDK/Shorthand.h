@@ -10,6 +10,8 @@
 #define OBJ_CREATE(type) (type*)MDK_Object_create((MDK_Object_Destructor)type##_destroy, sizeof(type))
 #define REF(object) MDK_Object_ref((MDK_Object*)object)
 #define UNREF(object) MDK_Object_unref((MDK_Object*)object)
+#define REF_NULL(object) if (object) MDK_Object_ref((MDK_Object*)object)
+#define UNREF_NULL(object) if (object) MDK_Object_unref((MDK_Object*)object)
 
 #define ENSURE(type) MDK_TypeID_ensure(this->id, type##_typeID)
 
