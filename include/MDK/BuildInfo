@@ -10,6 +10,7 @@ if [ $INSTALL_HEADERS = "true" ]; then
   MDK/GenericArray.h
   MDK/GenericSet.h
   MDK/Object.h
+  MDK/Result.h
   MDK/RingBufferEventLoop.h
   MDK/Set.h
   MDK/Timer.h
