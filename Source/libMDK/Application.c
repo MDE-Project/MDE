@@ -11,6 +11,8 @@
 
 static MDK_EventLoop* globalEventLoop;
 
+static MDK_Object* mainObject = NULL;
+
 static MDK_Object* startEventTarget = NULL;
 static MDK_Application_StartEvent_Handler startEventHandler = NULL;
 
@@ -35,8 +37,11 @@ int MDK_Application_startWithEventLoop(int argc, char** argv, MDK_EventLoop* eve
   
   int exitCode = MDK_EventLoop_run(globalEventLoop);
   
+  UNREF_NULL(mainObject);
+  
   UNREF_NULL(startEventTarget);
   UNREF_NULL(quitRequestEventTarget);
+  
   UNREF(globalEventLoop);
   
   return exitCode;
@@ -62,6 +67,12 @@ void MDK_Application_quit(int exitCode) {
 void MDK_Application_requestQuit() {
   MDK_Event* quitRequestEvent = MDK_Event_create(NULL, quitRequestEventTarget, quitRequestEventHandler);
   MDK_Application_sendEvent(quitRequestEvent);
+}
+
+void MDK_Application_setMainObject(MDK_Object* object) {
+  UNREF_NULL(mainObject);
+  mainObject = object;
+  REF_NULL(object);
 }
 
 void MDK_Application_onStart(MDK_Object* target, MDK_Application_StartEvent_Handler handler) {
