@@ -3,6 +3,7 @@
 #include <wayland-client-core.h>
 #include <wayland-client-protocol.h>
 #include <wayland-util.h>
+#include <Wayland/xdg_shell.h>
 
 #include <MDK/Object.h>
 #include <MDK/Result.h>
@@ -23,6 +24,9 @@ static void registryListener_global(void* this_raw, struct wl_registry* registry
   
   beginBind()
   tryBind(compositor, wl_compositor_interface, 1)
+  tryBind(seat, wl_seat_interface, 1)
+  tryBind(shm, wl_shm_interface, 1)
+  tryBind(wmBase, xdg_wm_base_interface, 1)
 }
 
 static const struct wl_registry_listener registryListener = {
@@ -35,10 +39,19 @@ MDK_Result MTK_WindowManager_Wayland_create(MTK_WindowManager_Wayland** this) {
   return MTK_WindowManager_Wayland_init(*this);
 }
 
+#define checkInterface(NAME, INTERFACE) \
+  if (!this->NAME) { \
+    fputs("MTK_WindowManager_Wayland: Required interface " #INTERFACE " unavailable\n", stderr); \
+    return MDK_Result_genericFailure; \
+  }
+
 MDK_Result MTK_WindowManager_Wayland_init(MTK_WindowManager_Wayland* this) {
   MTK_WindowManager_init(&this->inherited);
   this->id = MTK_WindowManager_Wayland_typeID;
   this->compositor = NULL;
+  this->seat = NULL;
+  this->shm = NULL;
+  this->wmBase = NULL;
   
   this->display = wl_display_connect(NULL);
   if (!this->display) {
@@ -51,10 +64,10 @@ MDK_Result MTK_WindowManager_Wayland_init(MTK_WindowManager_Wayland* this) {
   wl_registry_add_listener(this->registry, &registryListener, this);
   wl_display_roundtrip(this->display);
   
-  if (!this->compositor) {
-    fputs("MTK_WindowManager_Wayland: Required interface wl_compositor unavailable\n", stderr);
-    return MDK_Result_genericFailure;
-  }
+  checkInterface(compositor, wl_compositor)
+  checkInterface(seat, wl_seat)
+  checkInterface(shm, wl_shm)
+  checkInterface(wmBase, xdg_wm_base)
   
   return MDK_Result_success;
 }

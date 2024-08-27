@@ -13,6 +13,9 @@ MDK_TypeID_create(MTK_WindowManager_Wayland, 'W', 'M', 'W', 'a');
 struct wl_display;
 struct wl_registry;
 struct wl_compositor;
+struct wl_seat;
+struct wl_shm;
+struct xdg_wm_base;
 
 typedef struct {
   MTK_WindowManager inherited;
@@ -21,6 +24,9 @@ typedef struct {
   struct wl_display* display;
   struct wl_registry* registry;
   struct wl_compositor* compositor;
+  struct wl_seat* seat;
+  struct wl_shm* shm;
+  struct xdg_wm_base* wmBase;
 } MTK_WindowManager_Wayland;
 
 MDK_Result MTK_WindowManager_Wayland_create(MTK_WindowManager_Wayland** this);
