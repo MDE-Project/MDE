@@ -2,7 +2,7 @@
 
 #include <MDK/Object.h>
 #include <MDK/TypeID.h>
-#include <MTK/WindowManager/Wayland.h>
+#include <MTK/WindowManager.h>
 
 MDK_TypeID_create(MTKTest, 'M', 'T', 'K', 'T');
 
@@ -10,7 +10,7 @@ typedef struct {
   MDK_Object inherited;
   MDK_TypeID id;
   
-  MTK_WindowManager_Wayland* windowManager;
+  MTK_WindowManager* windowManager;
 } MTKTest;
 
 MTKTest* MTKTest_create();

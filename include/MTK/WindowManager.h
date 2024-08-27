@@ -14,3 +14,5 @@ struct MTK_WindowManager_struct {
 MTK_WindowManager* MTK_WindowManager_create();
 void MTK_WindowManager_init(MTK_WindowManager* this);
 void MTK_WindowManager_destroy(MTK_WindowManager* this);
+
+MTK_WindowManager* MTK_WindowManager_createOptimal();
