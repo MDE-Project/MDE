@@ -11,16 +11,16 @@ MDK_TypeID_create(MTK_WindowManager_Wayland, 'W', 'M', 'W', 'a');
 
 // Opaque Wayland types
 struct wl_display;
+struct wl_registry;
+struct wl_compositor;
 
 typedef struct {
   MTK_WindowManager inherited;
   MDK_TypeID id;
   
   struct wl_display* display;
-  
-  struct {
-    bool wl_compositor : 1;
-  } availableInterfaces;
+  struct wl_registry* registry;
+  struct wl_compositor* compositor;
 } MTK_WindowManager_Wayland;
 
 MDK_Result MTK_WindowManager_Wayland_create(MTK_WindowManager_Wayland** this);
