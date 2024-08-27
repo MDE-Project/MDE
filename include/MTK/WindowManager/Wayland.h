@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include <MDK/Object.h>
 #include <MDK/Result.h>
 #include <MDK/TypeID.h>
@@ -15,6 +17,10 @@ typedef struct {
   MDK_TypeID id;
   
   struct wl_display* display;
+  
+  struct {
+    bool wl_compositor : 1;
+  } availableInterfaces;
 } MTK_WindowManager_Wayland;
 
 MDK_Result MTK_WindowManager_Wayland_create(MTK_WindowManager_Wayland** this);
