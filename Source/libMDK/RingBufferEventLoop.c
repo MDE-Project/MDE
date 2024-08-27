@@ -87,7 +87,7 @@ static void sendEvent(MDK_EventLoop* this_raw, MDK_Event* event) {
   this->ringWriteOffset = (this->ringWriteOffset+1) % MDK_RingBufferEventLoop_ringSize;
   
   if (this->ringWriteOffset == this->ringReadOffset) {
-    fputs("Event loop ring buffer full! Aborting!\n", stderr);
+    fputs("MDK_RingBufferEventLoop: Event loop ring buffer full! Aborting!\n", stderr);
     abort();
   }
   

@@ -12,7 +12,7 @@ MDK_Object* MDK_Object_create(MDK_Object_Destructor destructor, size_t size) {
   this->destructor = destructor;
   
   #ifdef MDK_Debug
-    printf("Created object %p\n", this);
+    printf("MDK_Object: Created object %p\n", this);
   #endif
   
   return this;
@@ -27,9 +27,9 @@ void MDK_Object_unref(MDK_Object* this) {
   ENSURE(MDK_Object);
   
   if (this->refs == 0) {
-    fputs("Attempted to unref never ref'd object? Freeing anyway.\n", stderr);
+    fputs("MDK_Object: Attempted to unref never ref'd object? Freeing anyway.\n", stderr);
     #ifdef MDK_Debug
-      printf("Destroying object %p\n", this);
+      printf("MDK_Object: Destroying object %p\n", this);
     #endif
     
     if (this->destructor) {
@@ -38,7 +38,7 @@ void MDK_Object_unref(MDK_Object* this) {
     free(this);
   } else if (this->refs == 1) {
     #ifdef MDK_Debug
-      printf("Destroying object %p\n", this);
+      printf("MDK_Object: Destroying object %p\n", this);
     #endif
     
     this->refs--;
