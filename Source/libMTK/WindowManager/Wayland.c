@@ -80,6 +80,18 @@ void MTK_WindowManager_Wayland_destroy(MTK_WindowManager_Wayland* this) {
     wl_compositor_destroy(this->compositor);
   }
   
+  if (this->seat) {
+    wl_seat_destroy(this->seat);
+  }
+  
+  if (this->shm) {
+    wl_shm_destroy(this->shm);
+  }
+  
+  if (this->wmBase) {
+    xdg_wm_base_destroy(this->wmBase);
+  }
+  
   if (this->registry) {
     wl_registry_destroy(this->registry);
   }
