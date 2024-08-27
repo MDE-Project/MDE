@@ -13,7 +13,7 @@ static void joinThread(MDK_Object* this_raw, MDK_Event* event) {
 }
 
 static void* taskStart(void* this_raw) {
-  MDK_BackgroundTask* this = this_raw;
+  CAST_THIS(MDK_BackgroundTask);
   
   this->running = true;
   pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
