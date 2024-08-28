@@ -1,10 +1,16 @@
+#include <poll.h>
+#include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <wayland-client-core.h>
 #include <wayland-client-protocol.h>
 #include <wayland-util.h>
 #include <Wayland/xdg_shell.h>
 
+#include <MDK/Application.h>
+#include <MDK/BackgroundTask.h>
+#include <MDK/Event.h>
 #include <MDK/Object.h>
 #include <MDK/Result.h>
 #include <MDK/Shorthand.h>
@@ -33,6 +39,40 @@ static const struct wl_registry_listener registryListener = {
   .global = registryListener_global,
   .global_remove = NULL,
 };
+
+static void dispatchWaylandEvents(MDK_Object* this_raw, MDK_Event* event) {
+  CAST_THIS(MTK_WindowManager_Wayland);
+  wl_display_dispatch_pending(this->display);
+}
+
+static void waylandEventTaskMain(MDK_Object* this_raw) {
+  CAST_THIS(MTK_WindowManager_Wayland);
+  
+  struct pollfd pollInfo = {
+    .fd = this->displayFd,
+    .events = POLLIN,
+  };
+  
+  while (true) {
+    pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
+    wl_display_prepare_read(this->display);
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+    
+    if (poll(&pollInfo, 1, -1) < 0) {
+      fputs("MTK_WindowManager_Wayland: Error while polling Wayland socket\n", stderr);
+      abort();
+    }
+    
+    pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
+    wl_display_read_events(this->display);
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+    
+    MDK_Application_pause();
+      MDK_Event* event = MDK_Event_create(NULL, OBJ(this), dispatchWaylandEvents);
+      MDK_Application_sendEvent(event);
+    MDK_Application_resume();
+  }
+}
 
 MDK_Result MTK_WindowManager_Wayland_create(MTK_WindowManager_Wayland** this) {
   *this = OBJ_CREATE(MTK_WindowManager_Wayland);
@@ -69,12 +109,18 @@ MDK_Result MTK_WindowManager_Wayland_init(MTK_WindowManager_Wayland* this) {
   checkInterface(shm, wl_shm)
   checkInterface(wmBase, xdg_wm_base)
   
+  this->displayFd = wl_display_get_fd(this->display);
+  this->waylandEventTask = MDK_BackgroundTask_create(OBJ(this), waylandEventTaskMain);
+  REF(this->waylandEventTask);
+  
   return MDK_Result_success;
 }
 
 void MTK_WindowManager_Wayland_destroy(MTK_WindowManager_Wayland* this) {
   ENSURE(MTK_WindowManager_Wayland);
   MTK_WindowManager_destroy(&this->inherited);
+  
+  UNREF(this->waylandEventTask);
   
   if (this->compositor) {
     wl_compositor_destroy(this->compositor);

@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 
+#include <MDK/BackgroundTask.h>
 #include <MDK/Object.h>
 #include <MDK/Result.h>
 #include <MDK/TypeID.h>
@@ -27,6 +28,9 @@ typedef struct {
   struct wl_seat* seat;
   struct wl_shm* shm;
   struct xdg_wm_base* wmBase;
+  
+  int displayFd;
+  MDK_BackgroundTask* waylandEventTask;
 } MTK_WindowManager_Wayland;
 
 MDK_Result MTK_WindowManager_Wayland_create(MTK_WindowManager_Wayland** this);
