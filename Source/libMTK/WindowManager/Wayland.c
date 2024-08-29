@@ -100,24 +100,24 @@ static void waylandEventTaskMain(MDK_Object* this_raw) {
     .events = POLLIN,
   };
   
+  MDK_Application_pause();
+  
   while (true) {
-    pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
     wl_display_prepare_read(this->display);
-    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+    
+    MDK_Application_resume();
     
     if (poll(&pollInfo, 1, -1) < 0) {
       fputs("MTK_WindowManager_Wayland: Error while polling Wayland socket\n", stderr);
       abort();
     }
     
-    pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
-    wl_display_read_events(this->display);
-    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
-    
     MDK_Application_pause();
-      MDK_Event* event = MDK_Event_create(NULL, OBJ(this), dispatchWaylandEvents);
-      MDK_Application_sendEvent(event);
-    MDK_Application_resume();
+    
+    wl_display_read_events(this->display);
+    
+    MDK_Event* event = MDK_Event_create(NULL, OBJ(this), dispatchWaylandEvents);
+    MDK_Application_sendEvent(event);
   }
 }
 
@@ -177,6 +177,7 @@ void MTK_WindowManager_Wayland_destroy(MTK_WindowManager_Wayland* this) {
   MTK_WindowManager_destroy(&this->inherited);
   
   UNREF(this->waylandEventTask);
+  wl_display_cancel_read(this->display);
   
   if (this->compositor) {
     wl_compositor_destroy(this->compositor);
@@ -205,6 +206,8 @@ void MTK_WindowManager_Wayland_destroy(MTK_WindowManager_Wayland* this) {
   if (this->registry) {
     wl_registry_destroy(this->registry);
   }
+  
+  wl_display_roundtrip(this->display);
   
   if (this->display) {
     wl_display_disconnect(this->display);
