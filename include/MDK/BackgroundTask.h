@@ -6,7 +6,7 @@
 #include <MDK/Object.h>
 #include <MDK/TypeID.h>
 
-MDK_TypeID_create(MDK_BackgroundTask, 'B', 'T', 'a', 's');
+MDK_TypeID_create(MDK_BackgroundTask, 0xE05F5B60);
 
 typedef void (*MDK_BackgroundTask_MainFunc)(MDK_Object* this);
 

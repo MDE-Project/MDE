@@ -4,7 +4,7 @@
 #include <MDK/TypeID.h>
 #include <MTK/WindowManager.h>
 
-MDK_TypeID_create(MTKTest, 'M', 'T', 'K', 'T');
+MDK_TypeID_create(MTKTest, 0x2E1EEDC9);
 
 typedef struct {
   MDK_Object inherited;

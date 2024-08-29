@@ -5,7 +5,7 @@
 #include <MDK/TypeID.h>
 
 typedef struct MDK_Object_struct MDK_Object;
-MDK_TypeID_create(MDK_Object, 'O', 'b', 'j', 'e');
+MDK_TypeID_create(MDK_Object, 0x6E719025);
 
 typedef void (*MDK_Object_Destructor)(MDK_Object*);
 

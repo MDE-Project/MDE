@@ -7,8 +7,7 @@
 #include <MDK/Object.h>
 #include <MDK/TypeID.h>
 
-// FIXME: If you ever add a MDK_Time, change this
-MDK_TypeID_create(MDK_Timer, 'T', 'i', 'm', 'e');
+MDK_TypeID_create(MDK_Timer, 0x9E40CEF9);
 
 typedef enum {
   MDK_Timer_Type_oneShot,

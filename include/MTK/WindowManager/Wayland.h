@@ -8,7 +8,7 @@
 #include <MDK/TypeID.h>
 #include <MTK/WindowManager.h>
 
-MDK_TypeID_create(MTK_WindowManager_Wayland, 'W', 'M', 'W', 'a');
+MDK_TypeID_create(MTK_WindowManager_Wayland, 0x33954A72);
 
 // Opaque Wayland types
 struct wl_display;

@@ -5,7 +5,7 @@
 #include <MDK/TypeID.h>
 
 typedef struct MDK_EventLoop_struct MDK_EventLoop;
-MDK_TypeID_create(MDK_EventLoop, 'E', 'L', 'o', 'o');
+MDK_TypeID_create(MDK_EventLoop, 0x54828CFB);
 
 typedef int (*MDK_EventLoop_RunFunc)(MDK_EventLoop* this);
 typedef void (*MDK_EventLoop_PauseFunc)(MDK_EventLoop* this);

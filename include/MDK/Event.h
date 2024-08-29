@@ -9,7 +9,7 @@
   typedef void (*type##_Handler)(MDK_Object* this, type* event)
 
 typedef struct MDK_Event_struct MDK_Event;
-MDK_TypeID_create(MDK_Event, 'E', 'v', 'e', 'n');
+MDK_TypeID_create(MDK_Event, 0x1C5DF485);
 
 MDK_Event_createHandlerType(MDK_Event);
 

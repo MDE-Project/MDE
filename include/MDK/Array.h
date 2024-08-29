@@ -3,7 +3,7 @@
 #include <MDK/Object.h>
 #include <MDK/TypeID.h>
 
-MDK_TypeID_create(MDK_Array, 'A', 'r', 'r', 'a');
+MDK_TypeID_create(MDK_Array, 0x405EB567);
 
 typedef struct {
   MDK_Object inherited;

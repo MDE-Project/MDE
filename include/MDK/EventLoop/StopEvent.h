@@ -3,7 +3,7 @@
 #include <MDK/Event.h>
 #include <MDK/TypeID.h>
 
-MDK_TypeID_create(MDK_EventLoop_StopEvent, 'E', 'L', 'S', 'E');
+MDK_TypeID_create(MDK_EventLoop_StopEvent, 0x5F5A3132);
 
 typedef struct {
   MDK_Event inherited;

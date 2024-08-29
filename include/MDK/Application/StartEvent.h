@@ -3,7 +3,7 @@
 #include <MDK/Event.h>
 #include <MDK/TypeID.h>
 
-MDK_TypeID_create(MDK_Application_StartEvent, 'A', 'S', 'E', 'v');
+MDK_TypeID_create(MDK_Application_StartEvent, 0x3A4B5F8A);
 
 typedef struct {
   MDK_Event inherited;

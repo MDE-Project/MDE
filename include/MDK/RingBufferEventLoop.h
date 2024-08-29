@@ -10,7 +10,7 @@
 
 #define MDK_RingBufferEventLoop_ringSize (256)
 
-MDK_TypeID_create(MDK_RingBufferEventLoop, 'R', 'B', 'E', 'L');
+MDK_TypeID_create(MDK_RingBufferEventLoop, 0x446317F2);
 
 typedef struct {
   MDK_EventLoop inherited;
