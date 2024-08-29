@@ -38,6 +38,14 @@ static const struct wl_registry_listener registryListener = {
   .global_remove = NULL,
 };
 
+static void wmBaseListener_ping(void* data, struct xdg_wm_base* wmBase, uint32_t serial) {
+  xdg_wm_base_pong(wmBase, serial);
+}
+
+static const struct xdg_wm_base_listener wmBaseListener = {
+  .ping = wmBaseListener_ping,
+};
+
 static void dispatchWaylandEvents(MDK_Object* this_raw, MDK_Event* event) {
   CAST_THIS(MTK_WindowManager_Wayland);
   
@@ -116,6 +124,8 @@ MDK_Result MTK_WindowManager_Wayland_init(MTK_WindowManager_Wayland* this) {
   this->displayFd = wl_display_get_fd(this->display);
   this->waylandEventTask = MDK_BackgroundTask_create(OBJ(this), waylandEventTaskMain);
   REF(this->waylandEventTask);
+  
+  xdg_wm_base_add_listener(this->wmBase, &wmBaseListener, NULL);
   
   return MDK_Result_success;
 }
