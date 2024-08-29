@@ -29,6 +29,8 @@ typedef struct {
   struct wl_shm* shm;
   struct xdg_wm_base* wmBase;
   
+  uint32_t seatCapabilities;
+  
   int displayFd;
   MDK_BackgroundTask* waylandEventTask;
 } MTK_WindowManager_Wayland;

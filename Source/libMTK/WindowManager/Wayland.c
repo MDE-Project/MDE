@@ -38,6 +38,16 @@ static const struct wl_registry_listener registryListener = {
   .global_remove = NULL,
 };
 
+static void seatListener_capabilities(void* this_raw, struct wl_seat* seat, uint32_t capabilities) {
+  CAST_THIS(MTK_WindowManager_Wayland);
+  this->seatCapabilities = capabilities;
+}
+
+static const struct wl_seat_listener seatListener =  {
+  .capabilities = seatListener_capabilities,
+  .name = NULL,
+};
+
 static void wmBaseListener_ping(void* data, struct xdg_wm_base* wmBase, uint32_t serial) {
   xdg_wm_base_pong(wmBase, serial);
 }
@@ -114,6 +124,7 @@ MDK_Result MTK_WindowManager_Wayland_init(MTK_WindowManager_Wayland* this) {
   // Negotiate common protocols with server
   this->registry = wl_display_get_registry(this->display);
   wl_registry_add_listener(this->registry, &registryListener, this);
+  
   wl_display_roundtrip(this->display);
   
   checkInterface(compositor, wl_compositor)
@@ -121,11 +132,15 @@ MDK_Result MTK_WindowManager_Wayland_init(MTK_WindowManager_Wayland* this) {
   checkInterface(shm, wl_shm)
   checkInterface(wmBase, xdg_wm_base)
   
+  wl_seat_add_listener(this->seat, &seatListener, this);
+  xdg_wm_base_add_listener(this->wmBase, &wmBaseListener, NULL);
+  
+  wl_display_roundtrip(this->display);
+  
+  // Start listening to Wayland events in the background
   this->displayFd = wl_display_get_fd(this->display);
   this->waylandEventTask = MDK_BackgroundTask_create(OBJ(this), waylandEventTaskMain);
   REF(this->waylandEventTask);
-  
-  xdg_wm_base_add_listener(this->wmBase, &wmBaseListener, NULL);
   
   return MDK_Result_success;
 }
