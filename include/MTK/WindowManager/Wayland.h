@@ -15,6 +15,8 @@ struct wl_display;
 struct wl_registry;
 struct wl_compositor;
 struct wl_seat;
+struct wl_pointer;
+struct wl_keyboard;
 struct wl_shm;
 struct xdg_wm_base;
 
@@ -26,10 +28,10 @@ typedef struct {
   struct wl_registry* registry;
   struct wl_compositor* compositor;
   struct wl_seat* seat;
+  struct wl_pointer* pointer;
+  struct wl_keyboard* keyboard;
   struct wl_shm* shm;
   struct xdg_wm_base* wmBase;
-  
-  uint32_t seatCapabilities;
   
   int displayFd;
   MDK_BackgroundTask* waylandEventTask;

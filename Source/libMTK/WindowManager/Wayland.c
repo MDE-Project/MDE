@@ -28,7 +28,7 @@ static void registryListener_global(void* this_raw, struct wl_registry* registry
   
   beginBind()
   tryBind(compositor, wl_compositor_interface, 1)
-  tryBind(seat, wl_seat_interface, 1)
+  tryBind(seat, wl_seat_interface, 3)
   tryBind(shm, wl_shm_interface, 1)
   tryBind(wmBase, xdg_wm_base_interface, 1)
 }
@@ -40,12 +40,37 @@ static const struct wl_registry_listener registryListener = {
 
 static void seatListener_capabilities(void* this_raw, struct wl_seat* seat, uint32_t capabilities) {
   CAST_THIS(MTK_WindowManager_Wayland);
-  this->seatCapabilities = capabilities;
+  
+  if (capabilities & WL_SEAT_CAPABILITY_POINTER) {
+    if (!this->pointer) {
+      this->pointer = wl_seat_get_pointer(seat);
+    }
+  } else {
+    if (this->pointer) {
+      wl_pointer_release(this->pointer);
+      this->pointer = NULL;
+    }
+  }
+  
+  if (capabilities & WL_SEAT_CAPABILITY_KEYBOARD) {
+    if (!this->keyboard) {
+      this->keyboard = wl_seat_get_keyboard(seat);
+    }
+  } else {
+    if (this->keyboard) {
+      wl_keyboard_release(this->keyboard);
+      this->keyboard = NULL;
+    }
+  }
+}
+
+static void seatListener_name(void* this_raw, struct wl_seat* seat, const char* name) {
+  return;
 }
 
 static const struct wl_seat_listener seatListener =  {
   .capabilities = seatListener_capabilities,
-  .name = NULL,
+  .name = seatListener_name,
 };
 
 static void wmBaseListener_ping(void* data, struct xdg_wm_base* wmBase, uint32_t serial) {
@@ -112,6 +137,8 @@ MDK_Result MTK_WindowManager_Wayland_init(MTK_WindowManager_Wayland* this) {
   this->id = MTK_WindowManager_Wayland_typeID;
   this->compositor = NULL;
   this->seat = NULL;
+  this->pointer = NULL;
+  this->keyboard = NULL;
   this->shm = NULL;
   this->wmBase = NULL;
   
@@ -157,6 +184,14 @@ void MTK_WindowManager_Wayland_destroy(MTK_WindowManager_Wayland* this) {
   
   if (this->seat) {
     wl_seat_destroy(this->seat);
+  }
+  
+  if (this->pointer) {
+    wl_pointer_release(this->pointer);
+  }
+  
+  if (this->keyboard) {
+    wl_keyboard_release(this->keyboard);
   }
   
   if (this->shm) {
