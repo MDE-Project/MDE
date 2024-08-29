@@ -40,7 +40,13 @@ static const struct wl_registry_listener registryListener = {
 
 static void dispatchWaylandEvents(MDK_Object* this_raw, MDK_Event* event) {
   CAST_THIS(MTK_WindowManager_Wayland);
+  
   wl_display_dispatch_pending(this->display);
+  
+  if (wl_display_get_error(this->display) != 0) {
+    fputs("MTK_WindowManager_Wayland: Error after dispatching Wayland events\n", stderr);
+    abort();
+  }
 }
 
 static void waylandEventTaskMain(MDK_Object* this_raw) {
