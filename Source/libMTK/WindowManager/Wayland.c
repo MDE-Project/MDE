@@ -40,6 +40,7 @@ static const struct wl_registry_listener registryListener = {
   .global_remove = NULL,
 };
 
+
 static void seatListener_capabilities(void* this_raw, struct wl_seat* seat, uint32_t capabilities) {
   CAST_THIS(MTK_WindowManager_Wayland);
   
@@ -75,6 +76,7 @@ static const struct wl_seat_listener seatListener =  {
   .name = seatListener_name,
 };
 
+
 static void wmBaseListener_ping(void* data, struct xdg_wm_base* wmBase, uint32_t serial) {
   xdg_wm_base_pong(wmBase, serial);
 }
@@ -82,6 +84,7 @@ static void wmBaseListener_ping(void* data, struct xdg_wm_base* wmBase, uint32_t
 static const struct xdg_wm_base_listener wmBaseListener = {
   .ping = wmBaseListener_ping,
 };
+
 
 static void dispatchWaylandEvents(MDK_Object* this_raw, MDK_Event* event) {
   CAST_THIS(MTK_WindowManager_Wayland);
@@ -130,6 +133,7 @@ static void waylandEventTaskMain(MDK_Object* this_raw) {
     pthread_cond_wait(&this->waylandEventsDispatched, &this->waylandEventTaskMutex);
   }
 }
+
 
 MDK_Result MTK_WindowManager_Wayland_create(MTK_WindowManager_Wayland** this) {
   *this = OBJ_CREATE(MTK_WindowManager_Wayland);
