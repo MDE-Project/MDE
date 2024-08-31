@@ -1,5 +1,6 @@
 #pragma once
 
+#include <pthread.h>
 #include <stdbool.h>
 
 #include <MDK/BackgroundTask.h>
@@ -34,7 +35,10 @@ typedef struct {
   struct xdg_wm_base* wmBase;
   
   int displayFd;
+  
   MDK_BackgroundTask* waylandEventTask;
+  pthread_mutex_t waylandEventTaskMutex;
+  pthread_cond_t waylandEventsDispatched;
 } MTK_WindowManager_Wayland;
 
 MDK_Result MTK_WindowManager_Wayland_create(MTK_WindowManager_Wayland** this);

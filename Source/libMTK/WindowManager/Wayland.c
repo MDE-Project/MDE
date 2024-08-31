@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <wayland-client.h>
+#include <wayland-client-core.h>
+#include <wayland-client-protocol.h>
+#include <wayland-util.h>
 #include <Wayland/xdg_shell.h>
 
 #include <MDK/Application.h>
@@ -84,12 +86,24 @@ static const struct xdg_wm_base_listener wmBaseListener = {
 static void dispatchWaylandEvents(MDK_Object* this_raw, MDK_Event* event) {
   CAST_THIS(MTK_WindowManager_Wayland);
   
+  if (wl_display_prepare_read(this->display) != 0) {
+    fputs("MTK_WindowManager_Wayland: Failed to prepare Wayland display for reading\n", stderr);
+    abort();
+  }
+  
+  wl_display_read_events(this->display);
+  
   wl_display_dispatch_pending(this->display);
+  wl_display_flush(this->display);
   
   if (wl_display_get_error(this->display) != 0) {
     fputs("MTK_WindowManager_Wayland: Error after dispatching Wayland events\n", stderr);
     abort();
   }
+  
+  pthread_mutex_lock(&this->waylandEventTaskMutex);
+  pthread_cond_signal(&this->waylandEventsDispatched);
+  pthread_mutex_unlock(&this->waylandEventTaskMutex);
 }
 
 static void waylandEventTaskMain(MDK_Object* this_raw) {
@@ -100,24 +114,20 @@ static void waylandEventTaskMain(MDK_Object* this_raw) {
     .events = POLLIN,
   };
   
-  MDK_Application_pause();
+  pthread_mutex_lock(&this->waylandEventTaskMutex);
   
   while (true) {
-    wl_display_prepare_read(this->display);
-    
-    MDK_Application_resume();
-    
     if (poll(&pollInfo, 1, -1) < 0) {
       fputs("MTK_WindowManager_Wayland: Error while polling Wayland socket\n", stderr);
       abort();
     }
     
     MDK_Application_pause();
+      MDK_Event* event = MDK_Event_create(NULL, OBJ(this), dispatchWaylandEvents);
+      MDK_Application_sendEvent(event);
+    MDK_Application_resume();
     
-    wl_display_read_events(this->display);
-    
-    MDK_Event* event = MDK_Event_create(NULL, OBJ(this), dispatchWaylandEvents);
-    MDK_Application_sendEvent(event);
+    pthread_cond_wait(&this->waylandEventsDispatched, &this->waylandEventTaskMutex);
   }
 }
 
@@ -141,6 +151,8 @@ MDK_Result MTK_WindowManager_Wayland_init(MTK_WindowManager_Wayland* this) {
   this->keyboard = NULL;
   this->shm = NULL;
   this->wmBase = NULL;
+  pthread_mutex_init(&this->waylandEventTaskMutex, NULL);
+  pthread_cond_init(&this->waylandEventsDispatched, NULL);
   
   this->display = wl_display_connect(NULL);
   if (!this->display) {
@@ -177,7 +189,8 @@ void MTK_WindowManager_Wayland_destroy(MTK_WindowManager_Wayland* this) {
   MTK_WindowManager_destroy(&this->inherited);
   
   UNREF(this->waylandEventTask);
-  wl_display_cancel_read(this->display);
+  pthread_cond_destroy(&this->waylandEventsDispatched);
+  pthread_mutex_destroy(&this->waylandEventTaskMutex);
   
   if (this->compositor) {
     wl_compositor_destroy(this->compositor);
