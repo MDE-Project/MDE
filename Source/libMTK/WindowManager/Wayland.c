@@ -35,9 +35,13 @@ static void registryListener_global(void* this_raw, struct wl_registry* registry
   tryBind(wmBase, xdg_wm_base_interface, 1)
 }
 
+static void registryListener_globalRemove(void* this_raw, struct wl_registry* registry, uint32_t name) {
+  return;
+}
+
 static const struct wl_registry_listener registryListener = {
   .global = registryListener_global,
-  .global_remove = NULL,
+  .global_remove = registryListener_globalRemove,
 };
 
 
