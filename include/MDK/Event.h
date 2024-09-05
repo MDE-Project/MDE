@@ -5,8 +5,8 @@
 #include <MDK/Object.h>
 #include <MDK/TypeID.h>
 
-#define MDK_Event_createHandlerType(type) \
-  typedef void (*type##_Handler)(MDK_Object* this, type* event)
+#define MDK_Event_createHandlerType(TYPE) \
+  typedef void (*TYPE##_Handler)(MDK_Object* this, TYPE* event)
 
 typedef struct MDK_Event_struct MDK_Event;
 MDK_TypeID_create(MDK_Event, 0x1C5DF485);

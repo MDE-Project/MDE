@@ -4,15 +4,15 @@
 #include <MDK/Object.h>
 #include <MDK/TypeID.h>
 
-#define CAST_THIS(type) type* this = (type*)this_raw
+#define CAST_THIS(TYPE) TYPE* this = (TYPE*)this_raw
 
-#define OBJ(object) (MDK_Object*)object
-#define OBJ_CREATE(type) (type*)MDK_Object_create((MDK_Object_Destructor)type##_destroy, sizeof(type))
-#define REF(object) MDK_Object_ref((MDK_Object*)object)
-#define UNREF(object) MDK_Object_unref((MDK_Object*)object)
-#define REF_NULL(object) if (object) MDK_Object_ref((MDK_Object*)object)
-#define UNREF_NULL(object) if (object) MDK_Object_unref((MDK_Object*)object)
+#define OBJ(OBJECT) (MDK_Object*)OBJECT
+#define OBJ_CREATE(TYPE) (TYPE*)MDK_Object_create((MDK_Object_Destructor)TYPE##_destroy, sizeof(TYPE))
+#define REF(OBJECT) MDK_Object_ref((MDK_Object*)OBJECT)
+#define UNREF(OBJECT) MDK_Object_unref((MDK_Object*)OBJECT)
+#define REF_NULL(OBJECT) if (OBJECT) MDK_Object_ref((MDK_Object*)OBJECT)
+#define UNREF_NULL(OBJECT) if (OBJECT) MDK_Object_unref((MDK_Object*)OBJECT)
 
-#define ENSURE(type) MDK_TypeID_ensure(this->id, type##_typeID)
+#define ENSURE(TYPE) MDK_TypeID_ensure(this->id, TYPE##_typeID)
 
-#define EVT(event) (MDK_Event*)event
+#define EVT(EVENT) (MDK_Event*)EVENT

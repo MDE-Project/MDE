@@ -2,9 +2,9 @@
 
 #include <stdint.h>
 
-#define MDK_TypeID_create(type, value) \
+#define MDK_TypeID_create(TYPE, VALUE) \
   enum { \
-    type##_typeID = (value) \
+    TYPE##_typeID = (VALUE) \
   }
 
 typedef uint32_t MDK_TypeID;
