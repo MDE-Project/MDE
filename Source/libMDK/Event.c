@@ -25,7 +25,7 @@ void MDK_Event_destroy(MDK_Event* this) {
   UNREF_NULL(this->target);
 }
 
-void MDK_Event_deliver(MDK_Event* this) {
+void MDK_Event_dispatch(MDK_Event* this) {
   ENSURE(MDK_Event);
   
   this->handler(this->target, this);

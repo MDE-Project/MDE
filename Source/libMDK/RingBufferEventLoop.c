@@ -50,7 +50,7 @@ static int run(MDK_EventLoop* this_raw) {
       return MDK_EventLoop_StopEvent_getExitCode((MDK_EventLoop_StopEvent*)event);
     }
     
-    MDK_Event_deliver(event);
+    MDK_Event_dispatch(event);
     
     UNREF(event);
     this->ring[this->ringReadOffset] = NULL;
